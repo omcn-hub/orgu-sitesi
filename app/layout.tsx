@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Lato } from "next/font/google";
+import { Libre_Baskerville, Inter } from "next/font/google";
 import "./globals.css";
 
-const playfairDisplay = Playfair_Display({
+const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "700"],
   variable: "--font-heading",
 });
 
-const lato = Lato({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-body",
 });
 
@@ -53,7 +53,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr">
-      <body className={`${playfairDisplay.variable} ${lato.variable} antialiased`}>
+      <body className={`${libreBaskerville.variable} ${inter.variable} antialiased`} suppressHydrationWarning>
         {children}
       </body>
     </html>

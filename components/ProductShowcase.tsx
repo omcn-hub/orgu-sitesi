@@ -33,23 +33,23 @@ const ProductShowcase = () => {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="shop" ref={ref} className="py-24 px-6 bg-white">
+    <section id="shop" ref={ref} className="py-32 px-6 bg-stone-50">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="font-heading text-4xl md:text-5xl font-bold text-[#3C3126] mb-4">
+          <h2 className="font-heading text-5xl lg:text-6xl font-bold text-stone-900 mb-6 tracking-tight">
             Koleksiyonumuz
           </h2>
-          <p className="text-[#6D5A43] text-lg max-w-2xl mx-auto">
+          <p className="text-stone-600 text-xl max-w-2xl mx-auto leading-relaxed">
             Özenle seçilmiş el yapımı örgü ürünlerimizi keşfedin
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
           {products.map((product, index) => (
             <motion.div
               key={index}

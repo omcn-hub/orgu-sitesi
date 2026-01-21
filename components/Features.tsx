@@ -28,18 +28,18 @@ const Features = () => {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section ref={ref} className="py-24 px-6 bg-[#F5F1E8]">
+    <section ref={ref} className="py-32 px-6 bg-stone-100">
       <div className="max-w-7xl mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8 }}
-          className="font-heading text-4xl md:text-5xl font-bold text-center text-[#3C3126] mb-16"
+          className="font-heading text-5xl lg:text-6xl font-bold text-center text-stone-900 mb-24 tracking-tight"
         >
           Neden Bizi Seçmelisiniz?
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
@@ -51,17 +51,17 @@ const Features = () => {
                 className="text-center group"
               >
                 <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#8B7355] text-white mb-6 shadow-lg group-hover:shadow-2xl transition-shadow"
+                  whileHover={{ scale: 1.05 }}
+                  className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-stone-700 text-white mb-6 shadow-md group-hover:shadow-lg group-hover:bg-stone-800 transition-all duration-300"
                 >
-                  <Icon className="w-10 h-10" />
+                  <Icon className="w-8 h-8" />
                 </motion.div>
 
-                <h3 className="font-heading text-2xl font-semibold text-[#3C3126] mb-3">
+                <h3 className="font-heading text-2xl font-semibold text-stone-900 mb-3">
                   {feature.title}
                 </h3>
 
-                <p className="text-[#6D5A43] leading-relaxed">
+                <p className="text-stone-600 leading-relaxed">
                   {feature.description}
                 </p>
               </motion.div>
