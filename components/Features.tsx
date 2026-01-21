@@ -1,8 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { Heart, Leaf, Award } from 'lucide-react';
-import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 
 const features = [
@@ -10,16 +9,19 @@ const features = [
     icon: Heart,
     title: '%100 El Yapımı',
     description: 'Her parça özenle ve tutkuyla el emeğiyle örülür',
+    color: 'from-rose-400 to-pink-500',
   },
   {
     icon: Leaf,
     title: 'Organik Yün',
-    description: 'Sadece en kaliteli organik ve sürdürülebilir malzemeler kullanırız',
+    description: 'Sadece en kaliteli organik ve sürdürülebilir malzemeler',
+    color: 'from-green-400 to-emerald-500',
   },
   {
     icon: Award,
     title: 'Sınırlı Sayıda',
-    description: 'Başka hiçbir yerde bulamayacağınız özel tasarımlar',
+    description: 'Özel ve eşsiz tasarımlar',
+    color: 'from-amber-400 to-orange-500',
   },
 ];
 
@@ -28,46 +30,79 @@ const Features = () => {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section ref={ref} className="py-32 px-6 bg-stone-100">
-      <div className="max-w-7xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8 }}
-          className="font-heading text-5xl lg:text-6xl font-bold text-center text-stone-900 mb-24 tracking-tight"
-        >
-          Neden Bizi Seçmelisiniz?
-        </motion.h2>
+    <section ref={ref} className="relative py-24 lg:py-32 px-6 overflow-hidden bg-stone-50 flex flex-col items-center">
+      {/* Simple background */}
+      <div className="absolute inset-0 gradient-mesh-warm opacity-50" />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+      <div className="max-w-6xl mx-auto relative z-10 w-full">
+        {/* Header - CENTERED */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16 lg:mb-20"
+        >
+          <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-stone-900 mb-4 tracking-tight">
+            Neden Bizi Seçmelisiniz?
+          </h2>
+          <p className="text-lg lg:text-xl text-stone-600 max-w-2xl mx-auto">
+            Her ürünümüz sevgiyle ve özenle üretiliyor
+          </p>
+        </motion.div>
+
+        {/* Simple centered grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto w-full justify-center">
           {features.map((feature, index) => {
             const Icon = feature.icon;
+            
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 50 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                className="text-center group"
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { 
+                  opacity: 1, 
+                  y: 0,
+                } : { 
+                  opacity: 0, 
+                  y: 30,
+                }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: index * 0.1,
+                }}
+                className="text-center"
               >
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-stone-700 text-white mb-6 shadow-md group-hover:shadow-lg group-hover:bg-stone-800 transition-all duration-300"
-                >
-                  <Icon className="w-8 h-8" />
-                </motion.div>
+                <div className="glass-card rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 h-full">
+                  {/* Icon */}
+                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br ${feature.color} mb-6`}>
+                    <Icon className="w-8 h-8 text-white" />
+                  </div>
 
-                <h3 className="font-heading text-2xl font-semibold text-stone-900 mb-3">
-                  {feature.title}
-                </h3>
+                  {/* Content - CENTERED */}
+                  <h3 className="font-heading font-bold text-stone-900 mb-3 text-2xl">
+                    {feature.title}
+                  </h3>
 
-                <p className="text-stone-600 leading-relaxed">
-                  {feature.description}
-                </p>
+                  <p className="text-stone-600 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
               </motion.div>
             );
           })}
         </div>
+
+        {/* Bottom text - CENTERED */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-center mt-12"
+        >
+          <p className="text-stone-600 italic">
+            ✨ Her ürün özenle seçilmiş ve sevgiyle üretilmiştir
+          </p>
+        </motion.div>
       </div>
     </section>
   );
