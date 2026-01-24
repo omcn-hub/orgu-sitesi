@@ -20,6 +20,7 @@ const Navbar = () => {
   const navLinks = [
     { href: '#home', label: 'Ana Sayfa' },
     { href: '#shop', label: 'Mağaza' },
+    { href: '/blog', label: 'Blog' },
     { href: '#about', label: 'Hakkımızda' },
     { href: '#contact', label: 'İletişim' },
   ];

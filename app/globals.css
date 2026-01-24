@@ -166,6 +166,58 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================
+   BLOG CONTENT STYLING
+   ========================================== */
+
+.blog-content h2 {
+  scroll-margin-top: 100px;
+}
+
+.blog-content h3 {
+  scroll-margin-top: 100px;
+}
+
+/* Emoji Icons in Content */
+.blog-content h3::before {
+  margin-right: 0.5rem;
+}
+
+/* Tables */
+.blog-content table {
+  border-collapse: collapse;
+  margin: 2rem 0;
+  width: 100%;
+}
+
+.blog-content th,
+.blog-content td {
+  border: 1px solid var(--stone-200);
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.blog-content th {
+  background: var(--stone-100);
+  font-weight: 600;
+}
+
+/* GitHub Style Alerts */
+.blog-content blockquote {
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0.5rem;
+  background: var(--stone-50);
+}
+
+.blog-content blockquote p:first-child strong:first-child {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ==========================================
    RESPONSIVE
    ========================================== */
 
