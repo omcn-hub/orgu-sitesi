@@ -8,7 +8,8 @@ const products = [
   {
     name: 'Gri Kristal Taşlı & Peluş Ponponlu Patik',
     price: '1.000 ₺',
-    image: '/images/gri-patik-1.jpg',
+    image: '/images/gri-patik-3.jpg',
+    hoverImage: '/images/gri-patik-4.jpg',
     shopierLink: 'https://www.shopier.com/orgucuisminur/43436372',
   },
   {
@@ -17,6 +18,13 @@ const products = [
     image: '/images/beyaz-patik-1.jpg',
     hoverImage: '/images/beyaz-patik-2.jpg',
     shopierLink: 'https://www.shopier.com/orgucuisminur/43440875',
+  },
+  {
+    name: 'Özel Tasarım Siyah Çiçekli & İncili Lüks El Örgüsü Ev Terliği',
+    price: '599 ₺',
+    image: '/images/siyah-terlik.png',
+    hoverImage: '/images/siyah-terlik2.png',
+    shopierLink: 'https://www.shopier.com/orguhome27/43555530',
   },
 ];
 
