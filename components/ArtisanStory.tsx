@@ -30,7 +30,7 @@ const ArtisanStory = () => {
             transition={{ duration: 0.6 }}
             className="relative order-2 lg:order-1"
           >
-            <div className="relative h-[400px] lg:h-[500px] overflow-hidden rounded-3xl shadow-xl">
+            <div className="relative h-[400px] lg:h-[500px] overflow-hidden shadow-xl">
               <Image
                 src="https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=800&q=80"
                 alt="El örgüsü yapan zanaatkâr"
@@ -41,24 +41,6 @@ const ArtisanStory = () => {
               {/* Simple overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-stone-900/30 to-transparent" />
             </div>
-
-            {/* Stats card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="absolute -bottom-6 -right-6 glass-card p-6 rounded-2xl shadow-lg"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-gradient-to-br from-warm-gold to-terracotta rounded-full flex items-center justify-center">
-                  <Heart className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-stone-900 font-heading">1000+</div>
-                  <div className="text-sm text-stone-600">Mutlu Müşteri</div>
-                </div>
-              </div>
-            </motion.div>
           </motion.div>
 
           {/* Content Side - CENTERED */}
@@ -110,16 +92,6 @@ const ArtisanStory = () => {
                 );
               })}
             </div>
-
-            {/* CTA Button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-stone-900 text-white px-8 py-4 rounded-xl font-bold shadow-lg flex items-center gap-2"
-            >
-              Hakkımızda Daha Fazla Bilgi
-              <ArrowRight className="w-5 h-5" />
-            </motion.button>
           </motion.div>
         </div>
       </div>

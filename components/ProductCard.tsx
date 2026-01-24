@@ -8,10 +8,11 @@ interface ProductCardProps {
   name: string;
   price: string;
   image: string;
+  hoverImage?: string;
   shopierLink?: string;
 }
 
-const ProductCard = ({ name, price, image, shopierLink = '#' }: ProductCardProps) => {
+const ProductCard = ({ name, price, image, hoverImage, shopierLink = '#' }: ProductCardProps) => {
   return (
     <motion.div
       whileHover={{ y: -8 }}
@@ -20,12 +21,23 @@ const ProductCard = ({ name, price, image, shopierLink = '#' }: ProductCardProps
     >
       {/* Image Container */}
       <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
+        {/* Main Image */}
         <Image
           src={image}
           alt={name}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
+
+        {/* Hover Image */}
+        {hoverImage && (
+          <Image
+            src={hoverImage}
+            alt={name}
+            fill
+            className="absolute inset-0 object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 group-hover:scale-105"
+          />
+        )}
         
         {/* Simple overlay on hover */}
         <div className="absolute inset-0 bg-gradient-to-t from-stone-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

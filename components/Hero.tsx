@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
+import Link from 'next/link';
 
 const Hero = () => {
   return (
@@ -20,7 +21,7 @@ const Hero = () => {
         <div
           className="w-full h-full bg-cover bg-center opacity-20 mix-blend-overlay"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=1920&q=80')",
+            backgroundImage: "url('/hero_knitting_background_1769259829839.png')",
           }}
         />
       </div>
@@ -68,21 +69,25 @@ const Hero = () => {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-white text-stone-900 px-12 py-5 rounded-xl text-lg font-bold shadow-xl hover:shadow-2xl transition-shadow"
-          >
-            Koleksiyonu Keşfet →
-          </motion.button>
+          <Link href="#shop">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white text-stone-900 px-12 py-5 rounded-xl text-lg font-bold shadow-xl hover:shadow-2xl transition-shadow"
+            >
+              Koleksiyonu Keşfet →
+            </motion.button>
+          </Link>
 
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-white/10 border-2 border-white/50 px-12 py-5 rounded-xl text-lg font-bold text-white hover:bg-white/20 transition-colors"
-          >
-            Hakkımızda
-          </motion.button>
+          <Link href="#about">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white/10 border-2 border-white/50 px-12 py-5 rounded-xl text-lg font-bold text-white hover:bg-white/20 transition-colors"
+            >
+              Hakkımızda
+            </motion.button>
+          </Link>
         </motion.div>
 
         {/* Stats - CENTERED */}
@@ -92,14 +97,6 @@ const Hero = () => {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="mt-20 flex flex-wrap justify-center gap-8 lg:gap-16"
         >
-          <div className="text-center">
-            <div className="text-3xl lg:text-4xl font-bold text-white font-heading mb-1">
-              1000+
-            </div>
-            <div className="text-sm lg:text-base text-white/70">
-              Mutlu Müşteri
-            </div>
-          </div>
           <div className="text-center">
             <div className="text-3xl lg:text-4xl font-bold text-white font-heading mb-1">
               %100

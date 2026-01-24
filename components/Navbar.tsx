@@ -32,7 +32,7 @@ const Navbar = () => {
         }`}
       >
         <div className="w-full px-4 lg:px-8">
-          <div className={`glass-nav rounded-2xl px-6 py-4 transition-all duration-300 ${
+          <div className={`glass-nav px-6 py-4 transition-all duration-300 ${
             isScrolled ? 'shadow-lg' : 'shadow-md'
           }`}>
             <div className="flex items-center justify-between">
@@ -71,7 +71,7 @@ const Navbar = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-stone-900 text-white px-6 lg:px-8 py-2.5 lg:py-3 rounded-xl font-bold text-sm lg:text-base"
+                    className="text-black px-6 lg:px-8 py-2.5 lg:py-3 rounded-xl font-bold text-sm lg:text-base"
                   >
                     Hemen Al →
                   </motion.button>

@@ -6,30 +6,17 @@ import ProductCard from './ProductCard';
 
 const products = [
   {
-    name: 'Kalın Örgü Kazak',
-    price: '₺4.200',
-    image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&q=80',
-  },
-  {
-    name: 'Yün Hırka',
-    price: '₺3.600',
-    image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80',
-  },
-  {
-    name: 'Sıcak Bere',
-    price: '₺1.260',
-    image: 'https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=800&q=80',
-  },
-  {
-    name: 'Merino Atkı',
-    price: '₺1.820',
-    image: 'https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=800&q=80',
-  },
-  {
     name: 'Gri Kristal Taşlı & Peluş Ponponlu Patik',
-    price: '450 ₺',
+    price: '1.000 ₺',
     image: '/images/gri-patik-1.jpg',
     shopierLink: 'https://www.shopier.com/orgucuisminur/43436372',
+  },
+  {
+    name: 'Özel Tasarım İncili ve Tüylü Beyaz Gelin Patiği',
+    price: '1.000 ₺',
+    image: '/images/beyaz-patik-1.jpg',
+    hoverImage: '/images/beyaz-patik-2.jpg',
+    shopierLink: 'https://www.shopier.com/orgucuisminur/43440875',
   },
 ];
 
