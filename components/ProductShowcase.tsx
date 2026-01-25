@@ -7,14 +7,14 @@ import ProductCard from './ProductCard';
 const products = [
   {
     name: 'Gri Kristal Taşlı & Peluş Ponponlu Patik',
-    price: '1.000 ₺',
+    price: '499 ₺',
     image: '/images/gri-patik-3.jpg',
     hoverImage: '/images/gri-patik-4.jpg',
     shopierLink: 'https://www.shopier.com/orgucuisminur/43436372',
   },
   {
     name: 'Özel Tasarım İncili ve Tüylü Beyaz Gelin Patiği',
-    price: '1.000 ₺',
+    price: '499 ₺',
     image: '/images/beyaz-patik-1.jpg',
     hoverImage: '/images/beyaz-patik-2.jpg',
     shopierLink: 'https://www.shopier.com/orgucuisminur/43440875',

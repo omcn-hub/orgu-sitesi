@@ -19,6 +19,14 @@ export const metadata: Metadata = {
   description: "Sevgiyle ve organik yünle el emeğiyle örülmüş örgüler. Kazak, hırka, bere ve atkı koleksiyonumuzu keşfedin.",
   keywords: ["el örgüsü", "organik yün", "handmade", "örgü kazak", "yün hırka", "el yapımı örgü", "sürdürülebilir moda", "örgü ürünleri"],
   authors: [{ name: "ÖRGÜHOME" }],
+  icons: {
+    icon: [
+      { url: '/icon.png', sizes: 'any', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
   openGraph: {
     type: "website",
     locale: "tr_TR",
