@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Libre_Baskerville, Inter } from "next/font/google";
 import "./globals.css";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import GoogleTagManager, { GoogleTagManagerNoScript } from "@/components/GoogleTagManager";
 
 const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
@@ -62,7 +63,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr">
+      <head>
+        {process.env.NEXT_PUBLIC_GTM_ID && (
+          <GoogleTagManager GTM_ID={process.env.NEXT_PUBLIC_GTM_ID} />
+        )}
+      </head>
       <body className={`${libreBaskerville.variable} ${inter.variable} antialiased`} suppressHydrationWarning>
+        {process.env.NEXT_PUBLIC_GTM_ID && (
+          <GoogleTagManagerNoScript GTM_ID={process.env.NEXT_PUBLIC_GTM_ID} />
+        )}
         {process.env.NEXT_PUBLIC_GA_TRACKING_ID && (
           <GoogleAnalytics GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_TRACKING_ID} />
         )}
