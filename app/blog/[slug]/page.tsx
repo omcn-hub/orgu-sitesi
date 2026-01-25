@@ -109,12 +109,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </h3>
             <div className="flex gap-4">
               <button className="px-6 py-3 bg-stone-100 hover:bg-stone-200 rounded-xl font-semibold text-stone-800 transition-colors">
-                Facebook
-              </button>
-              <button className="px-6 py-3 bg-stone-100 hover:bg-stone-200 rounded-xl font-semibold text-stone-800 transition-colors">
-                Twitter
-              </button>
-              <button className="px-6 py-3 bg-stone-100 hover:bg-stone-200 rounded-xl font-semibold text-stone-800 transition-colors">
                 WhatsApp
               </button>
             </div>

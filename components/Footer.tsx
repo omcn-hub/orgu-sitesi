@@ -48,26 +48,6 @@ const Footer = () => {
             {/* Social Media */}
             <div className="flex gap-3">
               <motion.a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-10 h-10 bg-white/10 hover:bg-warm-gold rounded-full flex items-center justify-center text-white transition-colors"
-              >
-                <Twitter className="w-4 h-4" />
-              </motion.a>
-              <motion.a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-10 h-10 bg-white/10 hover:bg-warm-gold rounded-full flex items-center justify-center text-white transition-colors"
-              >
-                <Facebook className="w-4 h-4" />
-              </motion.a>
-              <motion.a
                 href="https://www.instagram.com/orgu.home27"
                 target="_blank"
                 rel="noopener noreferrer"
