@@ -36,9 +36,9 @@ const Navbar = () => {
           <div className={`glass-nav px-6 py-4 transition-all duration-300 ${
             isScrolled ? 'shadow-lg' : 'shadow-md'
           }`}>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between w-full">
               {/* Logo */}
-              <Link href="/" className="flex items-center gap-3">
+              <Link href="/" className="flex items-center gap-3 flex-shrink-0">
                 <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-warm-gold to-terracotta rounded-xl flex items-center justify-center shadow-md">
                   <ShoppingBag className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
                 </div>
@@ -54,12 +54,12 @@ const Navbar = () => {
               </Link>
 
               {/* Center Links */}
-              <div className="hidden md:flex items-center gap-2">
+              <div className="hidden md:flex items-center gap-1 lg:gap-3 xl:gap-6 flex-1 justify-center mx-8">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="px-4 py-2 text-stone-700 hover:text-stone-900 font-semibold text-sm lg:text-base transition-colors rounded-xl hover:bg-stone-100"
+                    className="px-3 lg:px-5 py-2 text-stone-700 hover:text-stone-900 font-semibold text-sm lg:text-base transition-colors rounded-xl hover:bg-stone-100 whitespace-nowrap"
                   >
                     {link.label}
                   </Link>
@@ -67,7 +67,7 @@ const Navbar = () => {
               </div>
 
               {/* CTA Button */}
-              <div className="hidden md:block">
+              <div className="hidden md:block flex-shrink-0">
                 <Link href="https://www.shopier.com/orguhome27" target="_blank">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
