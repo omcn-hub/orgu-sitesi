@@ -26,6 +26,13 @@ const products = [
     hoverImage: '/images/siyah-terlik2.png',
     shopierLink: 'https://www.shopier.com/orguhome27/43555530',
   },
+  {
+    name: 'Konfor Serisi: mavi El Örgüsü Kışlık Ev Botu / Patik',
+    price: '299 ₺',
+    image: '/images/mavi-patik3.png',
+    hoverImage: '/images/mavi-patik2.png',
+    shopierLink: 'https://www.shopier.com/orguhome27/43578410',
+  },
 ];
 
 const ProductShowcase = () => {
