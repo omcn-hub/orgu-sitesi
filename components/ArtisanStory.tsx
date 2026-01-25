@@ -19,7 +19,7 @@ const ArtisanStory = () => {
     <section 
       ref={ref}
       id="about" 
-      className="relative py-24 lg:py-32 px-6 overflow-hidden bg-stone-50"
+      className="relative pt-24 lg:pt-32 pb-32 lg:pb-48 px-6 overflow-hidden bg-stone-50"
     >
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
