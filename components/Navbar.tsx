@@ -68,7 +68,7 @@ const Navbar = () => {
 
               {/* CTA Button */}
               <div className="hidden md:block">
-                <Link href="https://www.shopier.com/orgucuisminur" target="_blank">
+                <Link href="https://www.shopier.com/orguhome27" target="_blank">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
