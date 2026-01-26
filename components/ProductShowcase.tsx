@@ -33,6 +33,13 @@ const products = [
     hoverImage: '/images/mavi-patik2.png',
     shopierLink: 'https://www.shopier.com/orguhome27/43578410',
   },
+  {
+    name: 'El Örgüsü Çiçek Detaylı Kadın Ev Patiği - Pudra Pembe',
+    price: '499 ₺',
+    image: '/images/pembe-patik2.png',
+    hoverImage: '/images/pembe-patik3.jpg',
+    shopierLink: 'https://www.shopier.com/orguhome27/43617534',
+  },
 ];
 
 const ProductShowcase = () => {
