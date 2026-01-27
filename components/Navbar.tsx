@@ -132,7 +132,7 @@ const Navbar = () => {
               ))}
               
               {/* Mobile CTA */}
-              <Link href="https://www.shopier.com/orgucuisminur" target="_blank" className="mt-4 w-full">
+              <Link href="https://www.shopier.com/orguhome27" target="_blank" className="mt-4 w-full">
                 <button className="w-full bg-stone-900 text-white px-6 py-4 rounded-xl font-bold">
                   Hemen Al →
                 </button>
