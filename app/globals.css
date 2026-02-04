@@ -5,9 +5,9 @@
    ========================================== */
 
 :root {
-  /* Base Colors */
-  --background: #fafaf9;
-  --foreground: #292524;
+  /* Base Colors - Luxury Dark Theme */
+  --background: #000000;
+  --foreground: #ffffff;
   --cream: #F5F1E8;
   
   /* Stone Scale */
@@ -22,18 +22,33 @@
   --stone-800: #292524;
   --stone-900: #1c1917;
   
+  /* Dark Theme Colors */
+  --dark-bg: #000000;
+  --dark-800: #0a0a0a;
+  --dark-700: #121212;
+  --dark-600: #1a1a1a;
+  --dark-500: #252525;
+  --dark-400: #303030;
+  
   /* Accent Colors */
   --warm-brown: #8B7355;
   --terracotta: #c97d60;
   --sage: #9caf88;
   --dusty-rose: #d4a5a5;
   --warm-gold: #d4a574;
+  --luxury-gold: #D4AF37;
+  --premium-white: #ffffff;
   
-  /* Simple Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  /* Premium Shadows */
+  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 40px -5px rgba(0, 0, 0, 0.6);
+  --shadow-premium: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+  
+  /* Glow Effects */
+  --glow-gold: 0 0 20px rgba(212, 175, 55, 0.3);
+  --glow-white: 0 0 30px rgba(255, 255, 255, 0.2);
 }
 
 @theme inline {
@@ -98,56 +113,92 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================
-   SIMPLE BACKGROUNDS
+   LUXURY BACKGROUNDS
    ========================================== */
 
 .gradient-mesh-warm {
-  background: linear-gradient(135deg, var(--stone-50) 0%, var(--cream) 100%);
+  background: linear-gradient(135deg, var(--dark-700) 0%, var(--dark-600) 100%);
 }
 
 .gradient-mesh-hero {
-  background: linear-gradient(135deg, #1c1917 0%, #292524 50%, #44403c 100%);
+  background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #1a1a1a 100%);
+}
+
+.gradient-luxury-dark {
+  background: linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+}
+
+.gradient-dark-to-light {
+  background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
 }
 
 /* ==========================================
-   SIMPLE CARDS
+   PREMIUM GLASS CARDS
    ========================================== */
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: var(--shadow-md);
-}
-
-.glass-card-strong {
-  background: rgba(255, 255, 255, 0.98);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: var(--shadow-lg);
-}
-
-.glass-nav {
-  background: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: var(--shadow-sm);
-}
-
-.glass-dark {
-  background: rgba(41, 37, 36, 0.95);
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: var(--shadow-lg);
 }
 
+.glass-card-strong {
+  background: rgba(18, 18, 18, 0.9);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: var(--shadow-xl);
+}
+
+.glass-nav {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-md);
+}
+
+.glass-dark {
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: var(--shadow-premium);
+}
+
+.glass-product-card {
+  background: rgba(18, 18, 18, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-lg);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-product-card:hover {
+  background: rgba(26, 26, 26, 0.9);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: var(--shadow-premium), var(--glow-gold);
+  transform: translateY(-8px);
+}
+
 /* ==========================================
-   MINIMAL HOVER EFFECTS
+   PREMIUM HOVER EFFECTS
    ========================================== */
 
 .simple-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .simple-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-premium);
+}
+
+.luxury-hover {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.luxury-hover:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-premium), var(--glow-gold);
 }
 
 /* ==========================================

@@ -19,7 +19,7 @@ const ArtisanStory = () => {
     <section 
       ref={ref}
       id="about" 
-      className="relative pt-24 lg:pt-32 pb-32 lg:pb-48 px-6 overflow-hidden bg-stone-50"
+      className="relative pt-24 lg:pt-32 pb-32 lg:pb-48 px-6 overflow-hidden bg-dark-bg"
     >
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -30,7 +30,7 @@ const ArtisanStory = () => {
             transition={{ duration: 0.6 }}
             className="relative order-2 lg:order-1"
           >
-            <div className="relative h-[400px] lg:h-[500px] overflow-hidden shadow-xl">
+            <div className="relative h-[400px] lg:h-[500px] overflow-hidden shadow-premium rounded-2xl">
               <Image
                 src="https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=800&q=80"
                 alt="El örgüsü yapan zanaatkâr"
@@ -39,7 +39,7 @@ const ArtisanStory = () => {
               />
               
               {/* Simple overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-900/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             </div>
           </motion.div>
 
@@ -50,12 +50,12 @@ const ArtisanStory = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="order-1 lg:order-2"
           >
-            <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-stone-900 mb-6 tracking-tight leading-tight">
+            <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight leading-tight">
               Tutkuyla{' '}
-              <span className="gradient-text">Üretildi</span>
+              <span className="text-luxury-gold">Üretildi</span>
             </h2>
 
-            <div className="space-y-4 text-stone-600 leading-relaxed text-base lg:text-lg mb-8">
+            <div className="space-y-4 text-white/70 leading-relaxed text-base lg:text-lg mb-8">
               <p>
                 Her ilmek bir hikaye anlatır. Örgülerimiz sadece giysi değil—her parçaya 
                 yüreğini koyan usta eller tarafından özenle örülmüş bir sevgi emeğidir.
@@ -66,7 +66,7 @@ const ArtisanStory = () => {
                 kalite ve detaylara gösterilen özeni garanti altına almak için saatlerce emek ister.
               </p>
 
-              <p className="font-medium text-stone-700">
+              <p className="font-medium text-white/90">
                 Sadece organik, sürdürülebilir kaynaklardan elde edilen yün kullanarak, hem sıcak 
                 ve rahat hem de gezegene nazik parçalar yaratıyoruz. 
               </p>
@@ -84,10 +84,10 @@ const ArtisanStory = () => {
                     transition={{ delay: 0.4 + index * 0.1, duration: 0.5 }}
                     className="flex items-center gap-3"
                   >
-                    <div className="w-10 h-10 bg-gradient-to-br from-warm-gold to-terracotta rounded-xl flex items-center justify-center shadow-md">
-                      <Icon className="w-5 h-5 text-white" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-luxury-gold to-warm-gold rounded-xl flex items-center justify-center shadow-lg">
+                      <Icon className="w-5 h-5 text-black" />
                     </div>
-                    <span className="text-stone-700 font-medium">{highlight.text}</span>
+                    <span className="text-white/90 font-medium">{highlight.text}</span>
                   </motion.div>
                 );
               })}

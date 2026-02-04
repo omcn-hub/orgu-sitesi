@@ -10,10 +10,10 @@ const Hero = () => {
       id="home" 
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Simple gradient background */}
-      <div className="absolute inset-0 z-0 gradient-mesh-hero">
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-stone-900/70 to-stone-900/80" />
+      {/* Pure black gradient background */}
+      <div className="absolute inset-0 z-0 bg-black">
+        {/* Subtle gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-dark-800 to-black" />
       </div>
 
       {/* Background Image */}

@@ -1,8 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ExternalLink } from 'lucide-react';
+import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface ProductCardProps {
   name: string;
@@ -13,60 +14,66 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ name, price, image, hoverImage, shopierLink = '#' }: ProductCardProps) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <motion.div
-      whileHover={{ y: -8 }}
-      transition={{ duration: 0.3 }}
-      className="group relative glass-card rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
+      whileHover={{ y: -10 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      className="group relative glass-product-card rounded-2xl overflow-hidden"
     >
       {/* Image Container */}
-      <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
+      <div className="relative w-full aspect-square overflow-hidden bg-dark-700">
         {/* Main Image */}
-        <Image
-          src={image}
-          alt={name}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-
-        {/* Hover Image */}
-        {hoverImage && (
+        <motion.div className="relative w-full h-full">
           <Image
-            src={hoverImage}
+            src={isHovered && hoverImage ? hoverImage : image}
             alt={name}
             fill
-            className="absolute inset-0 object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 group-hover:scale-105"
+            className="object-cover transition-all duration-500"
+            style={{
+              filter: isHovered ? 'brightness(1.1)' : 'brightness(1)',
+            }}
           />
-        )}
+        </motion.div>
         
-        {/* Simple overlay on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {/* Hover Overlay */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"
+        />
       </div>
 
-      {/* Content - CENTERED */}
+      {/* Content */}
       <div className="p-6">
-        <h3 className="font-heading text-xl font-bold text-stone-900 mb-2 text-center">
+        <h3 className="font-heading text-lg font-bold text-white mb-2 line-clamp-2 min-h-[3.5rem]">
           {name}
         </h3>
-
-        {/* PROMINENT Price */}
-        <p className="text-2xl font-bold text-stone-700 mb-4 text-center">
-          {price}
-        </p>
-
-        {/* PROMINENT CTA Button */}
-        <motion.a
-          href={shopierLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="flex items-center justify-center gap-2 w-full bg-stone-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-stone-800 transition-colors"
-        >
-          Mağazada Gör
-          <ExternalLink className="w-4 h-4" />
-        </motion.a>
+        
+        <div className="flex items-center justify-between mt-4">
+          <span className="text-2xl font-bold text-luxury-gold">{price}</span>
+          
+          <Link href={shopierLink} target="_blank" rel="noopener noreferrer">
+            <motion.button
+              whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(212, 175, 55, 0.4)' }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-luxury-gold text-black px-6 py-2.5 rounded-lg font-bold text-sm hover:bg-white transition-all duration-300"
+            >
+              Satın Al →
+            </motion.button>
+          </Link>
+        </div>
       </div>
+
+      {/* Premium Border Glow on Hover */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isHovered ? 1 : 0 }}
+        className="absolute inset-0 rounded-2xl border-2 border-luxury-gold/30 pointer-events-none"
+        style={{ boxShadow: '0 0 30px rgba(212, 175, 55, 0.2)' }}
+      />
     </motion.div>
   );
 };

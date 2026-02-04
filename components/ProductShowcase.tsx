@@ -47,26 +47,26 @@ const ProductShowcase = () => {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="shop" ref={ref} className="relative py-20 lg:py-32 px-6 bg-white overflow-hidden flex flex-col items-center">
-      <div className="max-w-6xl mx-auto relative z-10 w-full">
+    <section id="shop" ref={ref} className="relative py-24 lg:py-32 px-6 gradient-luxury-dark overflow-hidden flex flex-col items-center">
+      <div className="max-w-7xl mx-auto relative z-10 w-full">
         {/* Header - CENTERED */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16 lg:mb-20"
+          className="text-center mb-20"
         >
-          <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-stone-900 mb-4 tracking-tight">
+          <h2 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
             Koleksiyonumuz
           </h2>
           
-          <p className="text-lg lg:text-xl text-stone-600 max-w-2xl mx-auto">
+          <p className="text-xl lg:text-2xl text-white/70 max-w-3xl mx-auto font-light">
             Özenle seçilmiş el yapımı örgü ürünlerimizi keşfedin
           </p>
         </motion.div>
 
         {/* Products Grid - CENTERED */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 w-full justify-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16 w-full justify-center">
           {products.map((product, index) => (
             <motion.div
               key={index}
@@ -86,13 +86,13 @@ const ProductShowcase = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
           className="text-center"
         >
           <motion.button
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(212, 175, 55, 0.4)' }}
             whileTap={{ scale: 0.95 }}
-            className="bg-stone-900 text-white px-10 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-shadow"
+            className="bg-luxury-gold text-black px-14 py-5 rounded-xl text-lg font-bold shadow-xl hover:bg-white transition-all duration-300"
           >
             Tüm Koleksiyonu Görüntüle →
           </motion.button>

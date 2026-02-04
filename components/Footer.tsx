@@ -32,7 +32,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer id="contact" className="relative bg-stone-900 mt-32 pt-72 pb-16 px-6">
+    <footer id="contact" className="relative bg-black mt-32 pt-72 pb-16 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
