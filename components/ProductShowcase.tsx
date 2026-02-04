@@ -33,6 +33,13 @@ const products = [
     hoverImage: '/images/pembe-patik3.jpg',
     shopierLink: 'https://www.shopier.com/orguhome27/43617534',
   },
+  {
+    name: 'El Örgüsü Kadife Mary Jane Ev Ayakkabısı - Tarçın',
+    price: '500 ₺',
+    image: '/images/kahverengi-patik.png',
+    hoverImage: '/images/kahverengi-patik2.png',
+    shopierLink: 'https://www.shopier.com/orguhome27/43927481',
+  },
 ];
 
 const ProductShowcase = () => {
