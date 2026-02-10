@@ -20,21 +20,21 @@ const products = [
     shopierLink: 'https://www.shopier.com/orguhome27/43440875',
   },
   {
-    name: 'Konfor Serisi: mavi El Örgüsü Kışlık Ev Botu / Patik',
-    price: '500₺',
+    name: 'Konfor Serisi: Mavi El Örgüsü Kışlık Ev Botu',
+    price: '500 ₺',
     image: '/images/mavi-patik3.png',
     hoverImage: '/images/mavi-patik2.png',
     shopierLink: 'https://www.shopier.com/orguhome27/43578410',
   },
   {
-    name: 'El Örgüsü Çiçek Detaylı Kadın Ev Patiği - Pudra Pembe',
+    name: 'El Örgüsü Çiçek Detaylı Kadın Ev Patiği — Pudra Pembe',
     price: '500 ₺',
     image: '/images/pembe-patik2.png',
     hoverImage: '/images/pembe-patik3.jpg',
     shopierLink: 'https://www.shopier.com/orguhome27/43617534',
   },
   {
-    name: 'El Örgüsü Kadife Mary Jane Ev Ayakkabısı - Tarçın',
+    name: 'El Örgüsü Kadife Mary Jane Ev Ayakkabısı — Tarçın',
     price: '500 ₺',
     image: '/images/kahverengi-patik.png',
     hoverImage: '/images/kahverengi-patik2.png',
@@ -51,37 +51,37 @@ const products = [
 
 const ProductShowcase = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section id="shop" ref={ref} className="relative py-24 lg:py-32 px-6 gradient-luxury-dark overflow-hidden flex flex-col items-center">
-      <div className="max-w-7xl mx-auto relative z-10 w-full">
-        {/* Header - CENTERED */}
+    <section id="shop" ref={ref} className="relative py-24 lg:py-32 px-6 section-secondary overflow-hidden">
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className="text-center mb-16"
         >
-          <h2 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
+          <div className="section-label justify-center">Mağaza</div>
+          <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold mb-5 tracking-tight">
             Koleksiyonumuz
           </h2>
-          
-          <p className="text-xl lg:text-2xl text-white/70 max-w-3xl mx-auto font-light">
+          <p className="text-lg lg:text-xl text-[var(--text-secondary)] max-w-2xl mx-auto font-light leading-relaxed">
             Özenle seçilmiş el yapımı örgü ürünlerimizi keşfedin
           </p>
         </motion.div>
 
-        {/* Products Grid - CENTERED */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16 w-full justify-center">
+        {/* Products Grid — 3 columns for larger cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {products.map((product, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ 
-                duration: 0.6, 
-                delay: index * 0.1,
+                duration: 0.5, 
+                delay: index * 0.08,
               }}
             >
               <ProductCard {...product} />
@@ -89,20 +89,23 @@ const ProductShowcase = () => {
           ))}
         </div>
 
-        {/* View More Button - CENTERED */}
+        {/* View More Button */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
           className="text-center"
         >
-          <motion.button
-            whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(212, 175, 55, 0.4)' }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-luxury-gold text-black px-14 py-5 rounded-xl text-lg font-bold shadow-xl hover:bg-white transition-all duration-300"
+          <motion.a
+            href="https://www.shopier.com/orguhome27"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="inline-block btn-primary px-12 py-4 text-base"
           >
             Tüm Koleksiyonu Görüntüle →
-          </motion.button>
+          </motion.a>
         </motion.div>
       </div>
     </section>
