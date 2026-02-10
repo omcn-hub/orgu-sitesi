@@ -40,6 +40,13 @@ const products = [
     hoverImage: '/images/kahverengi-patik2.png',
     shopierLink: 'https://www.shopier.com/orguhome27/43927481',
   },
+  {
+    name: 'Bulutların Üzerinde Yürümeye Hazır mısın? ☁️',
+    price: '500 ₺',
+    image: '/images/patik2.png',
+    hoverImage: '/images/patik.png',
+    shopierLink: 'https://www.shopier.com/orguhome27/44120815',
+  },
 ];
 
 const ProductShowcase = () => {

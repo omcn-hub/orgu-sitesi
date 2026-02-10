@@ -59,7 +59,7 @@ const ProductCard = ({ name, price, image, hoverImage, shopierLink = '#' }: Prod
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(212, 175, 55, 0.4)' }}
               whileTap={{ scale: 0.95 }}
-              className="bg-luxury-gold text-black px-6 py-2.5 rounded-lg font-bold text-sm hover:bg-white transition-all duration-300"
+              className="bg-luxury-gold text-black px-6 py-2.5 rounded-lg font-bold text-sm  text-white hover:bg-black transition-all duration-300"
             >
               Satın Al →
             </motion.button>

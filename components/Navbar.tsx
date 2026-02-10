@@ -79,7 +79,7 @@ const Navbar = () => {
                   <motion.button
                     whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(212, 175, 55, 0.4)' }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-luxury-gold text-black px-6 lg:px-8 py-2.5 lg:py-3 rounded-xl font-bold text-sm lg:text-base hover:bg-white transition-all duration-300"
+                    className="bg-luxury-gold text-black px-6 lg:px-8 py-2.5 lg:py-3 rounded-xl font-bold text-sm  text-white lg:text-base hover:bg-black transition-all duration-300"
                   >
                     Hemen Al →
                   </motion.button>
