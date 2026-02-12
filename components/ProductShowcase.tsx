@@ -47,6 +47,14 @@ const products = [
     hoverImage: '/images/patik.png',
     shopierLink: 'https://www.shopier.com/orguhome27/44120815',
   },
+  {
+    name: 'Zarif Dokunuş: El Örgüsü İncili Çiçekli Kadın Patik - Nar Çiçeği Kırmızısı',
+    price: '500 ₺',
+    image: '/images/kırmızı-patik.png',
+    hoverImage: '/images/kırmızı-patik3.png',
+    shopierLink: 'https://www.shopier.com/orguhome27/44204265',
+  },
+
 ];
 
 const ProductShowcase = () => {
