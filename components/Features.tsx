@@ -41,7 +41,7 @@ const Features = () => {
 
   return (
     <section ref={ref} className="relative py-24 lg:py-32 px-6 section-cream">
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10 w-full">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -63,7 +63,7 @@ const Features = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => {
             const Icon = feature.icon;
-            
+
             return (
               <motion.div
                 key={index}
@@ -73,12 +73,12 @@ const Features = () => {
               >
                 <div className="warm-card p-7 h-full text-center group">
                   {/* Icon */}
-                  <div 
+                  <div
                     className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-5 transition-transform duration-300 group-hover:scale-110"
                     style={{ background: feature.bgAccent }}
                   >
-                    <Icon 
-                      className="w-6 h-6" 
+                    <Icon
+                      className="w-6 h-6"
                       style={{ color: feature.accent }}
                     />
                   </div>

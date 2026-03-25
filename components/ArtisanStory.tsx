@@ -25,7 +25,7 @@ const ArtisanStory = () => {
       {/* Subtle background decoration */}
       <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-[var(--accent-terracotta)] opacity-[0.03] blur-[80px]" />
       
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Image Side */}
           <motion.div

@@ -19,11 +19,11 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { href: '#home', label: 'Ana Sayfa' },
-    { href: '#shop', label: 'Mağaza' },
+    { href: '/#home', label: 'Ana Sayfa' },
+    { href: '/#shop', label: 'Mağaza' },
     { href: '/blog', label: 'Blog' },
-    { href: '#about', label: 'Hakkımızda' },
-    { href: '#contact', label: 'İletişim' },
+    { href: '/#about', label: 'Hakkımızda' },
+    { href: '/#contact', label: 'İletişim' },
   ];
 
   return (
@@ -36,7 +36,7 @@ const Navbar = () => {
           isScrolled ? 'py-2' : 'py-4'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 w-full">
           <div className={`rounded-2xl px-6 py-3.5 transition-all duration-500 ${
             isScrolled 
               ? 'nav-glass shadow-md' 

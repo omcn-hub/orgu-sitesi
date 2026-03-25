@@ -28,7 +28,7 @@ const Hero = () => {
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-[var(--accent-warm)] opacity-[0.05] blur-[100px] z-[2]" />
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto w-full">
         {/* Label */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}

@@ -45,25 +45,26 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <Navbar />
       <main className="min-h-screen bg-white">
         {/* Hero Section with Featured Image */}
-        <div className="relative h-[50vh] lg:h-[60vh] bg-stone-900">
-          <div className="absolute inset-0 bg-gradient-to-b from-stone-900/50 to-stone-900/80 z-10" />
+        <div className="relative h-[65vh] lg:h-[75vh] bg-stone-900">
+          <div className="absolute inset-0 bg-gradient-to-b from-stone-900/40 via-stone-900/60 to-stone-900/90 z-10" />
           <Image
             src="/images/blog-gelin-bohcasi.png"
             alt={post.title}
             fill
-            className="object-cover opacity-40"
+            priority
+            className="object-cover opacity-50"
           />
           
           {/* Title Overlay */}
-          <div className="absolute inset-0 z-20 flex items-center justify-center px-6">
+          <div className="absolute inset-0 z-20 flex items-end justify-center px-6 pb-12">
             <div className="max-w-4xl mx-auto text-center">
-              <time className="text-warm-gold text-sm lg:text-base font-semibold tracking-wide mb-4 block">
+              <time className="text-warm-gold text-sm lg:text-base font-semibold tracking-widest mb-4 block uppercase">
                 {post.date}
               </time>
-              <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 tracking-tight leading-tight">
+              <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-4 tracking-tight leading-tight">
                 {post.title}
               </h1>
-              <p className="text-stone-200 text-lg lg:text-xl max-w-2xl mx-auto">
+              <p className="text-stone-200 text-base lg:text-lg max-w-2xl mx-auto">
                 {post.description}
               </p>
             </div>

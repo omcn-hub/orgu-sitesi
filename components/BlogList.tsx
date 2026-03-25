@@ -28,7 +28,7 @@ const BlogList = () => {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section ref={ref} className="relative py-20 lg:py-32 px-6 bg-white overflow-hidden">
+    <section ref={ref} className="relative pt-32 lg:pt-40 pb-20 lg:pb-32 px-6 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div

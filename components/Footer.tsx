@@ -8,19 +8,19 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [
-    { label: 'Hakkımızda', href: '#about' },
-    { label: 'Mağaza', href: '#shop' },
-    { label: 'Koleksiyonlarımız', href: '#shop' },
+    { label: 'Hakkımızda', href: '/#about' },
+    { label: 'Mağaza', href: '/#shop' },
+    { label: 'Koleksiyonlarımız', href: '/#shop' },
     { label: 'Blog', href: '/blog' },
-    { label: 'İletişim', href: '#contact' },
+    { label: 'İletişim', href: '/#contact' },
   ];
 
   const categories = [
-    { label: 'Patikler', href: '#shop' },
-    { label: 'Ev Botları', href: '#shop' },
-    { label: 'Gelin Patikleri', href: '#shop' },
-    { label: 'Terlikler', href: '#shop' },
-    { label: 'Özel Tasarım', href: '#shop' },
+    { label: 'Patikler', href: '/#shop' },
+    { label: 'Ev Botları', href: '/#shop' },
+    { label: 'Gelin Patikleri', href: '/#shop' },
+    { label: 'Terlikler', href: '/#shop' },
+    { label: 'Özel Tasarım', href: '/#shop' },
   ];
 
   return (
@@ -28,7 +28,7 @@ const Footer = () => {
       {/* Top wave/divider */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent-warm)]/20 to-transparent" />
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto w-full">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-14">
           {/* Brand Column */}
