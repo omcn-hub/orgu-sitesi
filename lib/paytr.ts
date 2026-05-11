@@ -147,5 +147,5 @@ export async function generatePayTRToken(
 export function generateOrderId(): string {
   const timestamp = Date.now();
   const random = Math.random().toString(36).substring(2, 8).toUpperCase();
-  return `ORG-${timestamp}-${random}`;
+  return `ORG${timestamp}${random}`; // Tireleri (-) kaldırdık
 }
