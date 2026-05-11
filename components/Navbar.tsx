@@ -88,7 +88,7 @@ const Navbar = () => {
 
               {/* CTA Button */}
               <div className="hidden md:block flex-shrink-0">
-                <Link href="https://www.shopier.com/orguhome27" target="_blank">
+                <Link href="/#shop">
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
@@ -189,7 +189,7 @@ const Navbar = () => {
                   transition={{ delay: 0.3 }}
                   className="mt-6"
                 >
-                  <Link href="https://www.shopier.com/orguhome27" target="_blank" className="block">
+                  <Link href="/#shop" className="block" onClick={() => setIsMobileMenuOpen(false)}>
                     <button className="w-full btn-primary px-6 py-4 text-base">
                       Hemen Al →
                     </button>

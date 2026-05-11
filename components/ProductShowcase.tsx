@@ -10,51 +10,50 @@ const products = [
     price: '500 ₺',
     image: '/images/gri-patik-3.jpg',
     hoverImage: '/images/gri-patik-4.jpg',
-    shopierLink: 'https://www.shopier.com/orguhome27/43436372',
+    productId: 'gri-kristal-tasli-patik',
   },
   {
     name: 'Özel Tasarım İncili ve Tüylü Beyaz Gelin Patiği',
     price: '500 ₺',
     image: '/images/beyaz-patik-1.jpg',
     hoverImage: '/images/beyaz-patik-2.jpg',
-    shopierLink: 'https://www.shopier.com/orguhome27/43440875',
+    productId: 'beyaz-gelin-patigi',
   },
   {
     name: 'Konfor Serisi: Mavi El Örgüsü Kışlık Ev Botu',
     price: '500 ₺',
     image: '/images/mavi-patik3.png',
     hoverImage: '/images/mavi-patik2.png',
-    shopierLink: 'https://www.shopier.com/orguhome27/43578410',
+    productId: 'mavi-kislik-ev-botu',
   },
   {
     name: 'El Örgüsü Çiçek Detaylı Kadın Ev Patiği — Pudra Pembe',
     price: '500 ₺',
     image: '/images/pembe-patik2.png',
     hoverImage: '/images/pembe-patik3.jpg',
-    shopierLink: 'https://www.shopier.com/orguhome27/43617534',
+    productId: 'pembe-cicekli-patik',
   },
   {
     name: 'El Örgüsü Kadife Mary Jane Ev Ayakkabısı — Tarçın',
     price: '500 ₺',
     image: '/images/kahverengi-patik.png',
     hoverImage: '/images/kahverengi-patik2.png',
-    shopierLink: 'https://www.shopier.com/orguhome27/43927481',
+    productId: 'tarcin-mary-jane',
   },
   {
     name: 'Bulutların Üzerinde Yürümeye Hazır mısın? ☁️',
     price: '500 ₺',
     image: '/images/patik2.png',
     hoverImage: '/images/patik.png',
-    shopierLink: 'https://www.shopier.com/orguhome27/44120815',
+    productId: 'bulut-patik',
   },
   {
     name: 'Zarif Dokunuş: El Örgüsü İncili Çiçekli Kadın Patik - Nar Çiçeği Kırmızısı',
     price: '500 ₺',
     image: '/images/kırmızı-patik.png',
     hoverImage: '/images/kırmızı-patik3.png',
-    shopierLink: 'https://www.shopier.com/orguhome27/44204265',
+    productId: 'kirmizi-incili-patik',
   },
-
 ];
 
 const ProductShowcase = () => {
@@ -80,15 +79,15 @@ const ProductShowcase = () => {
           </p>
         </motion.div>
 
-        {/* Products Grid — 3 columns for larger cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product, index) => (
             <motion.div
-              key={index}
+              key={product.productId}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ 
-                duration: 0.5, 
+              transition={{
+                duration: 0.5,
                 delay: index * 0.08,
               }}
             >
@@ -96,25 +95,6 @@ const ProductShowcase = () => {
             </motion.div>
           ))}
         </div>
-
-        {/* View More Button */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-center"
-        >
-          <motion.a
-            href="https://www.shopier.com/orguhome27"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="inline-block btn-primary px-12 py-4 text-base"
-          >
-            Tüm Koleksiyonu Görüntüle →
-          </motion.a>
-        </motion.div>
       </div>
     </section>
   );
