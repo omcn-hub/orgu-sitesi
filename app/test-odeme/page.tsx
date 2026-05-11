@@ -1,8 +1,12 @@
 
 import { generatePayTRToken, generateOrderId } from "@/lib/paytr";
+import { headers } from "next/headers";
 
 export default async function TestOdemePage() {
-  // Bu değerler normalde env'den gelecek
+  const headerList = await headers();
+  // Vercel veya diğer proxy'lerin arkasındaki gerçek IP'yi alalım
+  const userIp = headerList.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
+
   const merchantId = process.env.PAYTR_MERCHANT_ID!;
   const merchantKey = process.env.PAYTR_MERCHANT_KEY!;
   const merchantSalt = process.env.PAYTR_MERCHANT_SALT!;
@@ -16,17 +20,17 @@ export default async function TestOdemePage() {
       merchantSalt,
       merchantOid: orderId,
       email: "test@example.com",
-      paymentAmount: 100, // 1.00 TL (kuruş cinsinden)
+      paymentAmount: 100, // 1.00 TL
       userBasket: [
         { name: "Test Ürünü", price: "100", quantity: 1 }
       ],
-      userIp: "127.0.0.1", // Test için sabit kalsın
+      userIp: userIp, // ARTIK GERÇEK IP GİDİYOR
       userName: "Test Kullanıcı",
       userAddress: "Test Adresi",
       userPhone: "05555555555",
       merchantOkUrl: "https://www.orguhome.com.tr/",
       merchantFailUrl: "https://www.orguhome.com.tr/",
-      testMode: "1", // TEST MODU AÇIK
+      testMode: "1",
       debugOn: "1"
     });
 
