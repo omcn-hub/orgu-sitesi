@@ -62,7 +62,7 @@ const ProductShowcase = () => {
 
   return (
     <section id="shop" ref={ref} className="relative py-24 lg:py-32 px-6 section-secondary overflow-hidden">
-      <div className="max-w-7xl mx-auto relative z-10 w-full">
+      <div className="max-w-7xl mx-auto relative w-full">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
