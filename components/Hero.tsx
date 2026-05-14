@@ -127,8 +127,7 @@ const Hero = () => {
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           className="flex flex-col items-center gap-2"
         >
-          <span className="text-white/40 text-xs font-medium uppercase tracking-widest">Keşfet</span>
-          <div className="w-[1px] h-8 bg-gradient-to-b from-white/40 to-transparent" />
+
         </motion.div>
       </motion.div>
     </section>
