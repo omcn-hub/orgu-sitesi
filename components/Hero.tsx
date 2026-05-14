@@ -36,10 +36,6 @@ const Hero = () => {
           transition={{ duration: 0.5 }}
           className="flex justify-center mb-8"
         >
-          <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/15 bg-white/5 text-white/70 text-sm font-medium tracking-wide">
-            <span className="w-2 h-2 rounded-full bg-[var(--accent-sage)] animate-pulse" />
-            El Yapımı · Organik · Sevgiyle Örülmüş
-          </span>
         </motion.div>
 
         {/* Main heading */}
