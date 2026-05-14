@@ -126,11 +126,20 @@ const Footer = () => {
           <p className="text-white/40 text-sm">
             © {currentYear} ÖRGÜHOME. Tüm hakları saklıdır.
           </p>
-          <div className="flex gap-6 text-sm">
-            <Link href="#" className="text-white/40 hover:text-white/70 transition-colors">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm justify-center md:justify-end">
+            <Link href="/mesafeli-satis-sozlesmesi" className="text-white/40 hover:text-white/70 transition-colors">
+              Mesafeli Satış Sözleşmesi
+            </Link>
+            <Link href="/iptal-iade-kosullari" className="text-white/40 hover:text-white/70 transition-colors">
+              İptal ve İade
+            </Link>
+            <Link href="/teslimat-ve-kargo" className="text-white/40 hover:text-white/70 transition-colors">
+              Teslimat ve Kargo
+            </Link>
+            <Link href="/gizlilik-politikasi" className="text-white/40 hover:text-white/70 transition-colors">
               Gizlilik Politikası
             </Link>
-            <Link href="#" className="text-white/40 hover:text-white/70 transition-colors">
+            <Link href="/kullanim-kosullari" className="text-white/40 hover:text-white/70 transition-colors">
               Kullanım Koşulları
             </Link>
           </div>
