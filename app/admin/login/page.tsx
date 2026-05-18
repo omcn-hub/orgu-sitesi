@@ -1,10 +1,14 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useState, FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
 import Image from 'next/image';
+
+// Statik prerender'ı devre dışı bırak (useSearchParams için zorunlu)
+export const dynamic = 'force-dynamic';
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
