@@ -11,6 +11,18 @@ import Image from 'next/image';
 export const dynamic = 'force-dynamic';
 
 export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[var(--bg-secondary)]">
+        <Loader2 className="w-8 h-8 animate-spin text-[var(--accent-terracotta)]" />
+      </div>
+    }>
+      <AdminLoginForm />
+    </Suspense>
+  );
+}
+
+function AdminLoginForm() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
