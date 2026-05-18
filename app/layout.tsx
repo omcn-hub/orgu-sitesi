@@ -3,6 +3,7 @@ import { Libre_Baskerville, Inter } from "next/font/google";
 import "./globals.css";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import GoogleTagManager, { GoogleTagManagerNoScript } from "@/components/GoogleTagManager";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
@@ -77,6 +78,7 @@ export default function RootLayout({
           <GoogleAnalytics GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_TRACKING_ID} />
         )}
         {children}
+        <WhatsAppButton />
       </body>
     </html>
   );
