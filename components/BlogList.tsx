@@ -20,7 +20,20 @@ const blogPosts: BlogPost[] = [
     image: '/images/blog-gelin-bohcasi.png',
     slug: 'gelin-bohcasi-el-orgusu-patikler',
   },
-  // Add more blog posts here
+  {
+    title: 'Organik Doğal Yün Kullanmanın Faydaları: Neden Yün Tercih Etmelisiniz?',
+    date: '18 Mayıs 2026',
+    excerpt: 'Organik doğal yün kullanmanın sağlığınıza, cildinize ve çevreye olan faydalarını keşfedin. El örgüsü ürünlerde yün tercih etmenin avantajları.',
+    image: '/images/beyaz-patik-1.jpg',
+    slug: 'organik-dogal-yun-kullanmanin-faydalari',
+  },
+  {
+    title: 'El Örgüsü Ev Botlarının Uzun Ömürlü Olması İçin Bakım Rehberi',
+    date: '18 Mayıs 2026',
+    excerpt: 'El örgüsü ev botlarınızın ve patiklerinizin yıllarca ilk günkü gibi kalması için uygulamanız gereken temizlik ve bakım sırları.',
+    image: '/images/gri-patik-1.jpg',
+    slug: 'el-orgusu-ev-botlarinin-bakim-rehberi',
+  },
 ];
 
 const BlogList = () => {
