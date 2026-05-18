@@ -22,7 +22,7 @@ import {
 const PRODUCT_CONFIG = {
   id: 'CUSTOM-CORAP-001',
   name: 'El Yapımı Özel Tasarım Örgü Çorap',
-  basePrice: 280,
+  basePrice: 500,
   image: '/images/kahverengi-patik.png', // Geçici olarak kahverengi patik resmi atandı
   description: 'Seçtiğin renk, numara ve kişisel dokunuşla senin için üretilir.',
 };
