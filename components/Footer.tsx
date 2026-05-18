@@ -101,7 +101,7 @@ const Footer = () => {
             <div className="space-y-4">
               <div className="flex items-start gap-3 text-[var(--text-light-muted)] text-sm">
                 <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5 text-[var(--accent-terracotta)]" />
-                <span>Gaziantep, Türkiye</span>
+                <span>Merveşehir Mahallesi Merinos Sitesi 1.Etap A4 Blok D4/1 27500 Şahinbey /GAZİANTEP</span>
               </div>
               <a
                 href="tel:+905510774112"
