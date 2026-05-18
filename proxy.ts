@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 const ADMIN_COOKIE = 'admin_session';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Sadece /admin altındaki sayfalara uygula (login sayfası hariç)
@@ -12,7 +12,7 @@ export function middleware(request: NextRequest) {
 
     if (!session || session.value !== process.env.ADMIN_SECRET) {
       const loginUrl = new URL('/admin/login', request.url);
-      loginUrl.searchParams.set('from', pathname); // Login sonrası geri dön
+      loginUrl.searchParams.set('from', pathname);
       return NextResponse.redirect(loginUrl);
     }
   }
