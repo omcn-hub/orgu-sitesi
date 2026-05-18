@@ -1,26 +1,39 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ShoppingBag, Heart } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import { useCartStore } from '@/store/useCartStore';
+import { useFavoriteStore } from '@/store/useFavoriteStore';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isActuallyScrolled, setIsActuallyScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+
+  const cartItems = useCartStore((state) => state.items);
+  const favoriteItems = useFavoriteStore((state) => state.items);
+  
+  const isHomePage = pathname === '/';
+  const isScrolled = !isHomePage || isActuallyScrolled;
   
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsActuallyScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
-    { href: '/#home', label: 'Ana Sayfa' },
+    { href: '/', label: 'Ana Sayfa' },
     { href: '/#shop', label: 'Mağaza' },
+    { href: '/custom-builder', label: '✦ Özel Tasarım' },
     { href: '/blog', label: 'Blog' },
     { href: '/#about', label: 'Hakkımızda' },
     { href: '/#contact', label: 'İletişim' },
@@ -70,15 +83,19 @@ const Navbar = () => {
               </Link>
 
               {/* Center Links */}
-              <div className="hidden md:flex items-center gap-1 lg:gap-2 flex-1 justify-center mx-8">
+              <div className="hidden lg:flex items-center gap-1 xl:gap-2 flex-1 justify-center mx-4">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
                     className={`px-4 lg:px-5 py-2 font-medium text-sm lg:text-[15px] transition-all duration-300 rounded-full whitespace-nowrap ${
-                      isScrolled 
-                        ? 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]'
-                        : 'text-white/80 hover:text-white hover:bg-white/10'
+                      link.href === '/custom-builder'
+                        ? isScrolled 
+                          ? 'text-[var(--accent-terracotta)] bg-[var(--accent-terracotta)]/10 hover:bg-[var(--accent-terracotta)]/20 font-semibold' 
+                          : 'text-white bg-white/20 hover:bg-white/30 font-semibold backdrop-blur-sm'
+                        : isScrolled 
+                          ? 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]'
+                          : 'text-white/80 hover:text-white hover:bg-white/10'
                     }`}
                   >
                     {link.label}
@@ -86,13 +103,32 @@ const Navbar = () => {
                 ))}
               </div>
 
-              {/* CTA Button */}
-              <div className="hidden md:block flex-shrink-0">
+              {/* Right Side Actions (Icons + CTA) */}
+              <div className="hidden md:flex items-center gap-3 lg:gap-4 flex-shrink-0">
+                <div className="flex items-center gap-1">
+                  <Link href="/favorites" className={`relative p-2 rounded-full transition-colors ${isScrolled ? 'text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]' : 'text-white hover:bg-white/10'}`}>
+                    <Heart className="w-5 h-5" />
+                    {mounted && favoriteItems.length > 0 && (
+                      <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full">
+                        {favoriteItems.length}
+                      </span>
+                    )}
+                  </Link>
+                  <Link href="/cart" className={`relative p-2 rounded-full transition-colors ${isScrolled ? 'text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]' : 'text-white hover:bg-white/10'}`}>
+                    <ShoppingBag className="w-5 h-5" />
+                    {mounted && cartItems.length > 0 && (
+                      <span className="absolute top-0 right-0 w-4 h-4 bg-[var(--accent-terracotta)] text-white text-[10px] font-bold flex items-center justify-center rounded-full">
+                        {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
+                      </span>
+                    )}
+                  </Link>
+                </div>
+
                 <Link href="/#shop">
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
-                    className="btn-primary px-7 py-2.5 text-sm lg:text-[15px]"
+                    className="btn-primary px-5 lg:px-7 py-2.5 text-sm lg:text-[15px]"
                   >
                     Hemen Al →
                   </motion.button>
@@ -155,12 +191,30 @@ const Navbar = () => {
                     ÖRGÜHOME
                   </span>
                 </div>
-                <button
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 hover:bg-[var(--bg-secondary)] rounded-xl transition-colors text-[var(--text-secondary)]"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+                <div className="flex items-center gap-2">
+                  <Link href="/favorites" onClick={() => setIsMobileMenuOpen(false)} className="relative p-2 hover:bg-[var(--bg-secondary)] rounded-xl transition-colors text-[var(--text-secondary)]">
+                    <Heart className="w-5 h-5" />
+                    {mounted && favoriteItems.length > 0 && (
+                      <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full">
+                        {favoriteItems.length}
+                      </span>
+                    )}
+                  </Link>
+                  <Link href="/cart" onClick={() => setIsMobileMenuOpen(false)} className="relative p-2 hover:bg-[var(--bg-secondary)] rounded-xl transition-colors text-[var(--text-secondary)]">
+                    <ShoppingBag className="w-5 h-5" />
+                    {mounted && cartItems.length > 0 && (
+                      <span className="absolute top-1 right-1 w-4 h-4 bg-[var(--accent-terracotta)] text-white text-[10px] font-bold flex items-center justify-center rounded-full">
+                        {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
+                      </span>
+                    )}
+                  </Link>
+                  <button
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="p-2 hover:bg-[var(--bg-secondary)] rounded-xl transition-colors text-[var(--text-secondary)]"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
 
               {/* Links */}
@@ -175,7 +229,11 @@ const Navbar = () => {
                     <Link
                       href={link.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="block px-4 py-3.5 text-[var(--text-primary)] font-medium text-[17px] rounded-xl hover:bg-[var(--bg-secondary)] transition-colors"
+                      className={`block px-4 py-3.5 font-medium text-[17px] rounded-xl transition-colors ${
+                        link.href === '/custom-builder'
+                          ? 'text-[var(--accent-terracotta)] bg-[var(--accent-terracotta)]/10 hover:bg-[var(--accent-terracotta)]/20 font-semibold'
+                          : 'text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]'
+                      }`}
                     >
                       {link.label}
                     </Link>

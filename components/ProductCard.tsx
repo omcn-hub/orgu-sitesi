@@ -1,10 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, Heart } from 'lucide-react';
 import PaymentModal from './PaymentModal';
+import { useCartStore } from '@/store/useCartStore';
+import { useFavoriteStore } from '@/store/useFavoriteStore';
+import { useRouter } from 'next/navigation';
 
 interface ProductCardProps {
   name: string;
@@ -17,6 +20,40 @@ interface ProductCardProps {
 const ProductCard = ({ name, price, image, hoverImage, productId }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  const router = useRouter();
+  const addToCart = useCartStore((state) => state.addToCart);
+  const { toggleFavorite, isFavorite } = useFavoriteStore();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const numericPrice = parseFloat(price.replace(/[^0-9,.-]+/g, '').replace(',', '.'));
+    addToCart({
+      id: productId,
+      name,
+      price: isNaN(numericPrice) ? 0 : numericPrice,
+      image,
+    });
+    router.push('/cart');
+  };
+
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const numericPrice = parseFloat(price.replace(/[^0-9,.-]+/g, '').replace(',', '.'));
+    toggleFavorite({
+      id: productId,
+      name,
+      price: isNaN(numericPrice) ? 0 : numericPrice,
+      image,
+    });
+  };
+
+  const isFav = mounted ? isFavorite(productId) : false;
 
   return (
     <>
@@ -47,6 +84,18 @@ const ProductCard = ({ name, price, image, hoverImage, productId }: ProductCardP
             className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"
           />
 
+          {/* Favorite Button */}
+          <button
+            onClick={handleToggleFavorite}
+            className="absolute top-4 right-4 z-10 p-2.5 rounded-full bg-white/90 backdrop-blur-sm shadow-sm hover:scale-110 transition-transform"
+          >
+            <Heart
+              className={`w-5 h-5 transition-colors ${
+                isFav ? 'fill-red-500 text-red-500' : 'text-gray-600'
+              }`}
+            />
+          </button>
+
           {/* Quick Buy Badge */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -55,11 +104,11 @@ const ProductCard = ({ name, price, image, hoverImage, productId }: ProductCardP
             className="absolute bottom-4 left-4 right-4"
           >
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={handleAddToCart}
               className="w-full flex items-center justify-center gap-2 bg-white/95 backdrop-blur-sm text-[var(--text-primary)] px-5 py-3 rounded-xl font-semibold text-sm hover:bg-white transition-colors shadow-lg"
             >
               <ShoppingBag className="w-4 h-4" />
-              Hızlı Satın Al
+              Sepete Ekle
             </button>
           </motion.div>
         </div>
@@ -76,10 +125,10 @@ const ProductCard = ({ name, price, image, hoverImage, productId }: ProductCardP
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setIsModalOpen(true)}
+              onClick={handleAddToCart}
               className="btn-primary px-5 py-2 text-sm"
             >
-              Satın Al
+              Sepete Ekle
             </motion.button>
           </div>
         </div>

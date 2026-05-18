@@ -80,13 +80,16 @@ const Hero = () => {
             </motion.button>
           </Link>
 
-          <Link href="#about">
+          <Link href="/custom-builder">
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="btn-outline-light px-10 py-4 text-base"
+              className="relative overflow-hidden group px-10 py-4 rounded-full text-base font-medium border border-white/40 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 hover:border-white/60 transition-all duration-300"
             >
-              Hikâyemiz
+              <span className="relative z-10 flex items-center gap-2">
+                ✦ Kendi Ürününü Tasarla
+              </span>
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 ease-in-out" />
             </motion.button>
           </Link>
         </motion.div>
