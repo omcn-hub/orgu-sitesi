@@ -1,14 +1,15 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Package, Truck, Scissors, CheckCircle2,
   ChevronDown, ChevronUp, Phone, Mail, Hash,
   Filter, BarChart3, AlertCircle, X, LogOut
 } from 'lucide-react';
-import { Order, OrderStatus, STATUS_META, DEMO_ORDERS, CustomizationDetails } from '@/lib/orderTypes';
+import { Order, OrderStatus, STATUS_META, CustomizationDetails } from '@/lib/orderTypes';
 
 // ─────────────────────────────────────────────────────────────
 // Filtre sekmeleri
@@ -392,10 +393,35 @@ function OrderCard({ order, onStatusChange }: OrderCardProps) {
 // Ana Admin Panel Bileşeni
 // ─────────────────────────────────────────────────────────────
 export default function AdminDashboard() {
-  const [orders, setOrders] = useState<Order[]>(DEMO_ORDERS);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState<OrderStatus | 'all'>('all');
   const [loggingOut, setLoggingOut] = useState(false);
   const router = useRouter();
+
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      const res = await fetch('/api/admin/orders');
+      const data = await res.json();
+      if (data.success) {
+        setOrders(data.orders || []);
+      } else {
+        setError(data.error || 'Siparişler yüklenirken bir hata oluştu.');
+      }
+    } catch (err) {
+      setError('Ağ bağlantı hatası oluştu.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
   const handleLogout = async () => {
     setLoggingOut(true);
@@ -403,10 +429,33 @@ export default function AdminDashboard() {
     router.replace('/admin/login');
   };
 
-  const handleStatusChange = (id: string, status: OrderStatus, extra: Partial<Order> = {}) => {
-    setOrders(prev =>
-      prev.map(o => o.id === id ? { ...o, status, ...extra } : o)
-    );
+  const handleStatusChange = async (id: string, status: OrderStatus, extra: Partial<Order> = {}) => {
+    try {
+      // Optimistic update
+      setOrders(prev =>
+        prev.map(o => o.id === id ? { ...o, status, ...extra } : o)
+      );
+
+      const res = await fetch('/api/admin/orders', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id,
+          status,
+          cargoTrackingNumber: extra.cargoTrackingNumber,
+          cargoCompany: extra.cargoCompany
+        })
+      });
+      const data = await res.json();
+      if (!data.success) {
+        fetchOrders();
+        alert('Hata: ' + (data.error || 'Sipariş güncellenemedi.'));
+      }
+    } catch (err) {
+      fetchOrders();
+      alert('Sipariş güncellenirken ağ hatası oluştu.');
+      console.error(err);
+    }
   };
 
   const filteredOrders = useMemo(() =>
@@ -483,30 +532,100 @@ export default function AdminDashboard() {
 
       {/* ── Ana İçerik ───────────────────────────────────── */}
       <div className="max-w-2xl mx-auto px-4 py-5">
+        {/* Yükleniyor Durumu */}
+        {loading && (
+          <div className="text-center py-20">
+            <div className="w-8 h-8 border-4 border-[var(--accent-terracotta)] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-[var(--text-muted)]">Siparişler yükleniyor...</p>
+          </div>
+        )}
+
+        {/* Hata Durumu */}
+        {!loading && error && (
+          <div className="bg-rose-50 border border-rose-200 rounded-2xl p-5 text-center my-6">
+            <p className="text-rose-700 font-semibold mb-2">{error}</p>
+            <button
+              onClick={fetchOrders}
+              className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-medium rounded-xl text-xs transition-all"
+            >
+              Tekrar Dene
+            </button>
+          </div>
+        )}
+
         {/* Hammadde Özeti — sadece tümü veya aktif sekmelerde göster */}
-        {(activeTab === 'all' || activeTab === 'pending' || activeTab === 'in_production') && (
+        {!loading && !error && orders.length > 0 && (activeTab === 'all' || activeTab === 'pending' || activeTab === 'in_production') && (
           <MaterialSummary orders={orders} />
         )}
 
         {/* Sipariş Listesi */}
-        {filteredOrders.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="text-6xl mb-4">🎉</div>
-            <p className="text-xl font-bold text-[var(--text-primary)]">Bu grupta sipariş yok</p>
-            <p className="text-[var(--text-muted)] mt-1">Siparişler gelince burada görünecek.</p>
-          </div>
-        ) : (
-          <motion.div layout className="space-y-4">
-            <AnimatePresence mode="popLayout">
-              {filteredOrders.map(order => (
-                <OrderCard
-                  key={order.id}
-                  order={order}
-                  onStatusChange={handleStatusChange}
-                />
-              ))}
-            </AnimatePresence>
-          </motion.div>
+        {!loading && !error && (
+          orders.length === 0 ? (
+            <div className="bg-white rounded-3xl border border-[var(--border-light)] p-8 shadow-sm text-center">
+              <div className="text-5xl mb-4">🧶</div>
+              <h2 className="text-lg font-bold text-[var(--text-primary)] mb-2">Henüz Sipariş Yok!</h2>
+              <p className="text-sm text-[var(--text-muted)] mb-6 max-w-sm mx-auto">
+                Supabase veritabanınız başarıyla bağlandı. Sipariş panelini test etmek için aşağıdaki adımları takip edebilirsiniz:
+              </p>
+              
+              <div className="text-left space-y-4 max-w-md mx-auto bg-[var(--bg-secondary)] p-6 rounded-2xl border border-[var(--border-light)] text-sm text-[var(--text-secondary)]">
+                <p className="font-bold text-[var(--text-primary)] mb-2">🧪 Test Adımları:</p>
+                <div className="flex items-start gap-2.5">
+                  <span className="w-5 h-5 rounded-full bg-[var(--accent-terracotta)]/10 text-[var(--accent-terracotta)] flex-shrink-0 flex items-center justify-center font-bold text-xs mt-0.5">1</span>
+                  <div>
+                    <p className="font-semibold text-[var(--text-primary)]">Özel Ürün Tasarlayın</p>
+                    <p className="text-xs text-[var(--text-muted)]">Yeni bir sekmede <Link href="/custom-builder" className="text-[var(--accent-terracotta)] underline hover:text-[var(--accent-terracotta)]/80">Kendi Ürününü Tasarla</Link> sayfasına gidin, seçeneklerinizi belirleyip "Sepete Ekle" deyin.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <span className="w-5 h-5 rounded-full bg-[var(--accent-terracotta)]/10 text-[var(--accent-terracotta)] flex-shrink-0 flex items-center justify-center font-bold text-xs mt-0.5">2</span>
+                  <div>
+                    <p className="font-semibold text-[var(--text-primary)]">Test Ödemesi Yapın</p>
+                    <p className="text-xs text-[var(--text-muted)]">Sepette "Ödeme Yap" diyerek PayTR ekranını açın. Test kartı bilgileriyle (Kart No: <code className="bg-white px-1 py-0.5 rounded border font-mono">4111 1111 1111 1111</code>) ödeme yapın.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <span className="w-5 h-5 rounded-full bg-[var(--accent-terracotta)]/10 text-[var(--accent-terracotta)] flex-shrink-0 flex items-center justify-center font-bold text-xs mt-0.5">3</span>
+                  <div>
+                    <p className="font-semibold text-[var(--text-primary)]">Siparişi Burada Görün</p>
+                    <p className="text-xs text-[var(--text-muted)]">Ödeme tamamlandığında bu sayfaya geri dönün. Sipariş anında veritabanından çekilip burada listelenecektir.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <span className="w-5 h-5 rounded-full bg-[var(--accent-terracotta)]/10 text-[var(--accent-terracotta)] flex-shrink-0 flex items-center justify-center font-bold text-xs mt-0.5">4</span>
+                  <div>
+                    <p className="font-semibold text-[var(--text-primary)]">Süreçleri Yönetin</p>
+                    <p className="text-xs text-[var(--text-muted)]">Sipariş kartındaki "Örgüye Başla", "Paketlendi" ve "Kargoya Ver" butonlarına tıklayarak durum güncellemelerini test edin.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <button
+                onClick={fetchOrders}
+                className="mt-6 px-6 py-2.5 bg-[var(--accent-terracotta)] hover:bg-[var(--accent-terracotta)]/90 text-white font-semibold rounded-xl text-sm transition-all shadow-sm"
+              >
+                🔄 Siparişleri Yenile
+              </button>
+            </div>
+          ) : filteredOrders.length === 0 ? (
+            <div className="text-center py-20">
+              <div className="text-6xl mb-4">🎉</div>
+              <p className="text-xl font-bold text-[var(--text-primary)]">Bu grupta sipariş yok</p>
+              <p className="text-[var(--text-muted)] mt-1">Seçtiğiniz filtreye uygun sipariş bulunmuyor.</p>
+            </div>
+          ) : (
+            <motion.div layout className="space-y-4">
+              <AnimatePresence mode="popLayout">
+                {filteredOrders.map(order => (
+                  <OrderCard
+                    key={order.id}
+                    order={order}
+                    onStatusChange={handleStatusChange}
+                  />
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          )
         )}
       </div>
     </div>
