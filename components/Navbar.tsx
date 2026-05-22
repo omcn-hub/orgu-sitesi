@@ -39,6 +39,24 @@ const Navbar = () => {
     { href: '/#contact', label: 'İletişim' },
   ];
 
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (pathname === '/') {
+      if (href.startsWith('/#')) {
+        e.preventDefault();
+        const id = href.replace('/#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          window.history.pushState(null, '', href);
+        }
+      } else if (href === '/') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.history.pushState(null, '', '/');
+      }
+    }
+  };
+
   return (
     <>
       <motion.nav
@@ -88,6 +106,7 @@ const Navbar = () => {
                   <Link
                     key={link.href}
                     href={link.href}
+                    onClick={(e) => handleLinkClick(e, link.href)}
                     className={`px-4 lg:px-5 py-2 font-medium text-sm lg:text-[15px] transition-all duration-300 rounded-full whitespace-nowrap ${
                       link.href === '/custom-builder'
                         ? isScrolled 
@@ -124,7 +143,7 @@ const Navbar = () => {
                   </Link>
                 </div>
 
-                <Link href="/#shop">
+                <Link href="/#shop" onClick={(e) => handleLinkClick(e, '/#shop')}>
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
@@ -228,7 +247,10 @@ const Navbar = () => {
                   >
                     <Link
                       href={link.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
+                      onClick={(e) => {
+                        setIsMobileMenuOpen(false);
+                        handleLinkClick(e, link.href);
+                      }}
                       className={`block px-4 py-3.5 font-medium text-[17px] rounded-xl transition-colors ${
                         link.href === '/custom-builder'
                           ? 'text-[var(--accent-terracotta)] bg-[var(--accent-terracotta)]/10 hover:bg-[var(--accent-terracotta)]/20 font-semibold'
@@ -247,7 +269,14 @@ const Navbar = () => {
                   transition={{ delay: 0.3 }}
                   className="mt-6"
                 >
-                  <Link href="/#shop" className="block" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Link
+                    href="/#shop"
+                    className="block"
+                    onClick={(e) => {
+                      setIsMobileMenuOpen(false);
+                      handleLinkClick(e, '/#shop');
+                    }}
+                  >
                     <button className="w-full btn-primary px-6 py-4 text-base">
                       Hemen Al →
                     </button>

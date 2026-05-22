@@ -3,9 +3,11 @@
 import { motion } from 'framer-motion';
 import { Instagram, Mail, MapPin, Phone } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const pathname = usePathname();
 
   const quickLinks = [
     { label: 'Hakkımızda', href: '/#about' },
@@ -14,6 +16,24 @@ const Footer = () => {
     { label: 'Blog', href: '/blog' },
     { label: 'İletişim', href: '/#contact' },
   ];
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (pathname === '/') {
+      if (href.startsWith('/#')) {
+        e.preventDefault();
+        const id = href.replace('/#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          window.history.pushState(null, '', href);
+        }
+      } else if (href === '/') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.history.pushState(null, '', '/');
+      }
+    }
+  };
 
   const categories = [
     { label: 'Patikler', href: '/#shop' },
@@ -65,6 +85,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     href={link.href}
+                    onClick={(e) => handleLinkClick(e, link.href)}
                     className="text-[var(--text-light-muted)] hover:text-white transition-colors text-sm"
                   >
                     {link.label}
@@ -84,6 +105,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     href={link.href}
+                    onClick={(e) => handleLinkClick(e, link.href)}
                     className="text-[var(--text-light-muted)] hover:text-white transition-colors text-sm"
                   >
                     {link.label}
