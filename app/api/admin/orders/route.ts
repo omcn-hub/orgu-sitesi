@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase';
 import { Order, OrderStatus } from '@/lib/orderTypes';
+import { ADMIN_COOKIE, verifySessionToken } from '@/lib/adminAuth';
 
-const ADMIN_COOKIE = 'admin_session';
-
-function checkAuth(req: NextRequest): boolean {
-  const cookie = req.cookies.get(ADMIN_COOKIE);
-  return cookie?.value === process.env.ADMIN_SECRET;
+function checkAuth(req: NextRequest): Promise<boolean> {
+  return verifySessionToken(req.cookies.get(ADMIN_COOKIE)?.value);
 }
 
 const mapDbOrderToFrontendOrder = (dbOrder: any): Order => {
@@ -45,7 +43,7 @@ const mapDbOrderToFrontendOrder = (dbOrder: any): Order => {
 // ── GET: Tüm Siparişleri Getir ──
 export async function GET(req: NextRequest) {
   try {
-    if (!checkAuth(req)) {
+    if (!(await checkAuth(req))) {
       return NextResponse.json({ error: 'Yetkisiz erişim.' }, { status: 401 });
     }
 
@@ -73,7 +71,7 @@ export async function GET(req: NextRequest) {
 // ── PATCH: Sipariş Durumu ve Kargo Bilgisi Güncelle ──
 export async function PATCH(req: NextRequest) {
   try {
-    if (!checkAuth(req)) {
+    if (!(await checkAuth(req))) {
       return NextResponse.json({ error: 'Yetkisiz erişim.' }, { status: 401 });
     }
 
