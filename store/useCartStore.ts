@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import type { CustomSelection } from '@/lib/customProductTypes';
 
 // ─────────────────────────────────────────────────────────────
 // CartItem — Özelleştirme detaylarıyla genişletildi
@@ -20,11 +21,13 @@ export interface CartItemCustomization {
 
 export interface CartItem {
   id: string;           // productId + timestamp (benzersiz)
+  productId?: string;   // Katalog/özel ürün kimliği — eski sepetlerde yok, id kullanılır
   name: string;
-  price: number;
+  price: number;        // Yalnızca gösterim; ödeme tutarını sunucu hesaplar
   image: string;
   quantity: number;
   customization?: CartItemCustomization;
+  customSelection?: CustomSelection; // Özel tasarım ürünlerin sunucuya giden seçimleri
 }
 
 interface CartState {

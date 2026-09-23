@@ -51,7 +51,11 @@ export default function CartPage() {
   };
 
   const productNames = items.map(i => `${i.quantity}x ${i.name}`).join(', ');
-  const productIds = items.map(i => i.id).join(',');
+  const checkoutItems = items.map(i => ({
+    productId: i.productId ?? i.id,
+    quantity: i.quantity,
+    customSelection: i.customSelection,
+  }));
 
   return (
     <>
@@ -148,8 +152,8 @@ export default function CartPage() {
         isOpen={isPaymentModalOpen}
         onClose={() => setIsPaymentModalOpen(false)}
         productName={productNames.length > 50 ? "Sepet Toplamı" : productNames}
-        price={`${totalAmount} TL`}
-        productId={`CART-${productIds.substring(0, 30)}`}
+        price={`${totalAmount.toLocaleString('tr-TR')} ₺`}
+        items={checkoutItems}
       />
     </div>
     <Footer />

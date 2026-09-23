@@ -25,18 +25,11 @@ import {
   GIFT_BOX_SURCHARGE,
   INSCRIPTION_SURCHARGE,
   calculateTotalPrice,
+  toCustomSelection,
+  CUSTOM_PRODUCT,
 } from '@/lib/customProductTypes';
+import PaymentModal from '@/components/PaymentModal';
 import { useCartStore } from '@/store/useCartStore';
-
-// ─────────────────────────────────────────────────────────────
-// Ürün Konfigürasyonu
-// ─────────────────────────────────────────────────────────────
-const PRODUCT_CONFIG = {
-  id: 'CUSTOM-CORAP-001',
-  name: 'El Yapımı Özel Tasarım Örgü Patik',
-  basePrice: 300,
-  description: 'Seçtiğin renk, numara ve tüm özelleştirmelerle senin için üretilir.',
-};
 
 // Renk grubuna göre önizleme görseli eşleştirme
 const COLOR_TO_IMAGE: Record<string, string> = {
@@ -52,102 +45,6 @@ const COLOR_TO_IMAGE: Record<string, string> = {
   antrasit:    '/images/siyah-terlik.png',
 };
 const DEFAULT_IMAGE = '/images/beyaz-patik-3.jpg';
-
-// ─────────────────────────────────────────────────────────────
-// PayTR Modal
-// ─────────────────────────────────────────────────────────────
-interface PaymentModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  token: string | null;
-  isLoading: boolean;
-  errorMsg: string;
-  onRetry: () => void;
-}
-
-function PaymentModal({ isOpen, onClose, token, isLoading, errorMsg, onRetry }: PaymentModalProps) {
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [onClose]);
-
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [isOpen]);
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center p-0 sm:p-4">
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-          />
-          <motion.div
-            initial={{ opacity: 0, y: 60, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 60, scale: 0.97 }}
-            transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-            className="relative z-10 w-full sm:max-w-xl bg-[var(--bg-primary)] rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden"
-            style={{ maxHeight: '95dvh' }}
-          >
-            <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-[var(--border-light)]">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 bg-[var(--accent-terracotta)]/10 rounded-lg">
-                  <CreditCard className="w-4 h-4 text-[var(--accent-terracotta)]" />
-                </div>
-                <span className="font-semibold text-[var(--text-primary)]">Güvenli Ödeme</span>
-              </div>
-              <button onClick={onClose} className="p-2 rounded-xl hover:bg-[var(--bg-secondary)] transition-colors text-[var(--text-muted)]">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="flex-1 overflow-hidden">
-              {isLoading && (
-                <div className="flex flex-col items-center justify-center py-20 gap-4">
-                  <div className="w-12 h-12 rounded-full border-[3px] border-[var(--border-light)] border-t-[var(--accent-terracotta)] animate-spin" />
-                  <p className="text-sm font-medium text-[var(--text-secondary)]">Ödeme formu hazırlanıyor...</p>
-                </div>
-              )}
-              {!isLoading && errorMsg && (
-                <div className="flex flex-col items-center justify-center py-16 px-6 text-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center">
-                    <X className="w-7 h-7 text-red-400" />
-                  </div>
-                  <p className="text-sm text-[var(--text-muted)]">{errorMsg}</p>
-                  <button onClick={onRetry} className="btn-primary px-8 py-3 text-sm">Tekrar Dene</button>
-                </div>
-              )}
-              {!isLoading && token && (
-                <iframe
-                  src={`https://www.paytr.com/odeme/guvenli/${token}`}
-                  className="w-full border-none"
-                  style={{ height: 520 }}
-                  title="PayTR Güvenli Ödeme"
-                  allow="payment"
-                />
-              )}
-            </div>
-
-            <div className="px-6 py-3 border-t border-[var(--border-light)] bg-[var(--bg-secondary)]/50">
-              <div className="flex items-center justify-center gap-5 text-xs text-[var(--text-muted)]">
-                <span className="flex items-center gap-1.5"><Lock className="w-3.5 h-3.5" />256-bit SSL</span>
-                <span className="w-1 h-1 rounded-full bg-[var(--border-medium)]" />
-                <span className="flex items-center gap-1.5"><Shield className="w-3.5 h-3.5" />PayTR Güvencesi</span>
-                <span className="w-1 h-1 rounded-full bg-[var(--border-medium)]" />
-                <span className="flex items-center gap-1.5"><CreditCard className="w-3.5 h-3.5" />3D Secure</span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
-  );
-}
 
 // ─────────────────────────────────────────────────────────────
 // Sepete Eklendi Toast
@@ -236,7 +133,7 @@ function OrderSummary({ product, onPay, isPayLoading }: {
         >
           <Image
             src={previewImage}
-            alt={PRODUCT_CONFIG.name}
+            alt={CUSTOM_PRODUCT.name}
             fill
             className="object-cover"
             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
@@ -286,8 +183,8 @@ function OrderSummary({ product, onPay, isPayLoading }: {
       </div>
 
       <div className="p-6">
-        <h3 className="font-heading font-bold text-base text-[var(--text-primary)] mb-1">{PRODUCT_CONFIG.name}</h3>
-        <p className="text-xs text-[var(--text-muted)] mb-5">{PRODUCT_CONFIG.description}</p>
+        <h3 className="font-heading font-bold text-base text-[var(--text-primary)] mb-1">{CUSTOM_PRODUCT.name}</h3>
+        <p className="text-xs text-[var(--text-muted)] mb-5">{CUSTOM_PRODUCT.description}</p>
 
         {/* ── Fiyat Özeti ── */}
         <div className="border-t border-[var(--border-light)] pt-4">
@@ -428,9 +325,9 @@ export default function CustomBuilderPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [product, setProduct] = useState<CustomProduct>({
     ...INITIAL_STATE,
-    productId: PRODUCT_CONFIG.id,
-    basePrice: PRODUCT_CONFIG.basePrice,
-    totalPrice: PRODUCT_CONFIG.basePrice,
+    productId: CUSTOM_PRODUCT.id,
+    basePrice: CUSTOM_PRODUCT.basePrice,
+    totalPrice: CUSTOM_PRODUCT.basePrice,
   });
 
   const addToCart = useCartStore((s) => s.addToCart);
@@ -456,26 +353,10 @@ export default function CustomBuilderPage() {
 
   // ── PayTR Modal State ──
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isPayLoading, setIsPayLoading] = useState(false);
-  const [paytrToken, setPaytrToken] = useState<string | null>(null);
-  const [paytrError, setPaytrError] = useState('');
 
   // ── Sepete Ekle Durumu ──
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [cartAdded, setCartAdded] = useState(false);
-
-  // ── Sipariş Kaydet (Supabase) ──
-  const saveOrder = useCallback(async (prod: CustomProduct, paytrOrderId?: string) => {
-    try {
-      await fetch('/api/orders/save', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product: prod, paytrOrderId }),
-      });
-    } catch (err) {
-      console.error('[Order Save]', err);
-    }
-  }, []);
 
   // ── Sepete Ekle ──
   const handleAddToCart = useCallback(async () => {
@@ -483,22 +364,13 @@ export default function CustomBuilderPage() {
     setIsAddingToCart(true);
 
     try {
-      // Backend fiyat doğrulama + Supabase kayıt
-      const res = await fetch('/api/orders/save', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product }),
-      });
-      const data = await res.json();
-
-      // Güvenli fiyatı kullan
-      const verifiedPrice = data.verifiedPrice ?? product.totalPrice;
-
-      // Sepete ekle
+      // Sepete ekle — ödeme tutarını sunucu seçimlerden yeniden hesaplar
       addToCart({
-        id: `${PRODUCT_CONFIG.id}-${Date.now()}`,
-        name: PRODUCT_CONFIG.name,
-        price: verifiedPrice,
+        id: `${CUSTOM_PRODUCT.id}-${Date.now()}`,
+        productId: CUSTOM_PRODUCT.id,
+        customSelection: toCustomSelection(product),
+        name: CUSTOM_PRODUCT.name,
+        price: product.totalPrice,
         image: product.selectedColor
           ? (COLOR_TO_IMAGE[product.selectedColor.id] || DEFAULT_IMAGE)
           : DEFAULT_IMAGE,
@@ -527,55 +399,10 @@ export default function CustomBuilderPage() {
     }
   }, [product, addToCart]);
 
-  // ── PayTR Token Al ──
-  const fetchPaytrToken = useCallback(async (prod: CustomProduct) => {
-    setIsPayLoading(true);
-    setPaytrError('');
-    setPaytrToken(null);
-
-    try {
-      const selections = [
-        prod.selectedColor?.label,
-        prod.selectedSize ? `No:${prod.selectedSize}` : '',
-        prod.selectedSole?.label,
-        prod.selectedYarn?.label,
-        prod.selectedAnkle?.label,
-        prod.selectedPattern?.label,
-        ...prod.selectedAccessories,
-        prod.hasGiftBox ? 'Hediye Kutusu' : '',
-        prod.extraDetails.hasInscription ? `İşleme:"${prod.extraDetails.text}"` : '',
-      ].filter(Boolean).join(', ');
-
-      const basketName = `${PRODUCT_CONFIG.name} (${selections})`.substring(0, 100);
-
-      const res = await fetch('/api/paytr/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          productName: basketName,
-          price: `${prod.totalPrice} TL`,
-          productId: prod.productId,
-        }),
-      });
-
-      const data = await res.json();
-      if (!res.ok || !data.token) throw new Error(data.error || 'Token alınamadı.');
-
-      // Supabase'e kaydet
-      await saveOrder(prod, data.orderId);
-      setPaytrToken(data.token);
-    } catch (err: unknown) {
-      setPaytrError(err instanceof Error ? err.message : 'Bir hata oluştu.');
-    } finally {
-      setIsPayLoading(false);
-    }
-  }, [saveOrder]);
-
   // ── Direkt Ödeme (Özet panelindeki buton) ──
   const handlePay = () => {
     if (!product.selectedColor || !product.selectedSize) return;
     setIsModalOpen(true);
-    fetchPaytrToken(product);
   };
 
   return (
@@ -653,7 +480,7 @@ export default function CustomBuilderPage() {
             <OrderSummary
               product={product}
               onPay={handlePay}
-              isPayLoading={isPayLoading}
+              isPayLoading={isModalOpen}
             />
           </div>
         </div>
@@ -661,11 +488,10 @@ export default function CustomBuilderPage() {
         {/* ── PayTR Ödeme Modalı ── */}
         <PaymentModal
           isOpen={isModalOpen}
-          onClose={() => { setIsModalOpen(false); setPaytrToken(null); setPaytrError(''); }}
-          token={paytrToken}
-          isLoading={isPayLoading}
-          errorMsg={paytrError}
-          onRetry={() => fetchPaytrToken(product)}
+          onClose={() => setIsModalOpen(false)}
+          productName={CUSTOM_PRODUCT.name}
+          price={`${product.totalPrice.toLocaleString('tr-TR')} ₺`}
+          items={[{ productId: CUSTOM_PRODUCT.id, quantity: 1, customSelection: toCustomSelection(product) }]}
         />
       </div>
       <Footer />

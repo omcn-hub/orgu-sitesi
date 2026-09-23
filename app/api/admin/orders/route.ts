@@ -16,9 +16,14 @@ const mapDbOrderToFrontendOrder = (dbOrder: any): Order => {
     customerName: dbOrder.customer_name || 'Anonim',
     customerEmail: dbOrder.customer_email || '',
     customerPhone: dbOrder.customer_phone || '',
+    customerAddress: dbOrder.customer_address || '',
     orderDate: dbOrder.order_date || dbOrder.created_at,
+    productId: dbOrder.product_id || '',
+    productName: dbOrder.product_name || '',
+    quantity: dbOrder.quantity || 1,
     totalPrice: dbOrder.total_price,
     status: dbOrder.status as OrderStatus,
+    paymentStatus: dbOrder.payment_status ?? null,
     cargoTrackingNumber: dbOrder.cargo_tracking_number || undefined,
     cargoCompany: dbOrder.cargo_company || undefined,
     notes: dbOrder.notes || undefined,
@@ -48,6 +53,8 @@ export async function GET(req: NextRequest) {
     const { data, error } = await supabase
       .from('custom_orders')
       .select('*')
+      // Yalnızca ödenmiş siparişler; NULL = ödeme takibinden önceki eski kayıtlar
+      .or('payment_status.is.null,payment_status.eq.paid')
       .order('order_date', { ascending: false });
 
     if (error) {

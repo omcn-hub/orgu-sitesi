@@ -57,6 +57,32 @@ export interface CustomProduct {
   totalPrice: number;
 }
 
+/** Sepete ve sunucuya giden seçim özeti — yalnızca seçenek id'leri, fiyat yok */
+export interface CustomSelection {
+  colorId: string;
+  size: number;
+  soleId: string;
+  yarnId: string;
+  ankleId: string;
+  patternId: string;
+  accessoryIds: string[];
+  giftBox: boolean;
+  inscription: string;   // Boşsa işleme yok
+}
+
+// ─────────────────────────────────────────────────────────────
+// Ürün Konfigürasyonu
+// ─────────────────────────────────────────────────────────────
+
+export const CUSTOM_PRODUCT = {
+  id: 'CUSTOM-CORAP-001',
+  name: 'El Yapımı Özel Tasarım Örgü Patik',
+  basePrice: 300,
+  description: 'Seçtiğin renk, numara ve tüm özelleştirmelerle senin için üretilir.',
+};
+
+export const INSCRIPTION_MAX_LENGTH = 20;
+
 // ─────────────────────────────────────────────────────────────
 // Sabitler — Renk Paleti
 // ─────────────────────────────────────────────────────────────
@@ -278,4 +304,19 @@ export function calculateTotalPrice(product: CustomProduct): number {
     giftExtra +
     inscExtra
   );
+}
+
+/** Wizard state'inden sunucuya gidecek seçim özetini çıkarır */
+export function toCustomSelection(product: CustomProduct): CustomSelection {
+  return {
+    colorId: product.selectedColor?.id ?? '',
+    size: product.selectedSize ?? 0,
+    soleId: product.selectedSole?.id ?? SOLE_OPTIONS[0].id,
+    yarnId: product.selectedYarn?.id ?? YARN_OPTIONS[0].id,
+    ankleId: product.selectedAnkle?.id ?? ANKLE_OPTIONS[0].id,
+    patternId: product.selectedPattern?.id ?? PATTERN_OPTIONS[0].id,
+    accessoryIds: product.selectedAccessories,
+    giftBox: product.hasGiftBox,
+    inscription: product.extraDetails.hasInscription ? product.extraDetails.text.trim() : '',
+  };
 }

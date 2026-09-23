@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Package, Truck, Scissors, CheckCircle2,
   ChevronDown, ChevronUp, Phone, Mail, Hash,
-  Filter, BarChart3, AlertCircle, X, LogOut
+  Filter, BarChart3, AlertCircle, X, LogOut, MapPin
 } from 'lucide-react';
 import { Order, OrderStatus, STATUS_META, CustomizationDetails } from '@/lib/orderTypes';
 
@@ -309,7 +309,13 @@ function OrderCard({ order, onStatusChange }: OrderCardProps) {
           <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: meta.color }}>
             Sipariş Detayı
           </p>
-          <CustomizationBadges c={order.customization} />
+          {order.productName && (
+            <p className="text-base font-bold text-[var(--text-primary)]">
+              {order.quantity > 1 && <span style={{ color: meta.color }}>{order.quantity} × </span>}
+              {order.productName}
+            </p>
+          )}
+          {order.customization.color && <CustomizationBadges c={order.customization} />}
           {order.customization.inscription && (
             <p className="text-2xl font-bold mt-1" style={{ color: meta.color }}>
               ✏️ &ldquo;{order.customization.inscription}&rdquo;
@@ -380,6 +386,12 @@ function OrderCard({ order, onStatusChange }: OrderCardProps) {
                   <Mail className="w-5 h-5 text-[var(--accent-terracotta)]" />
                   <span className="font-semibold text-[var(--text-primary)] text-sm truncate">{order.customerEmail}</span>
                 </a>
+                {order.customerAddress && (
+                  <div className="flex items-start gap-3 py-3 px-4 rounded-xl bg-[var(--bg-secondary)]">
+                    <MapPin className="w-5 h-5 text-[var(--text-secondary)] flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-[var(--text-primary)] whitespace-pre-line">{order.customerAddress}</span>
+                  </div>
+                )}
               </div>
             </motion.div>
           )}

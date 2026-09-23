@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
+import { createServerSupabaseClient } from "@/lib/supabase";
 
 // ─────────────────────────────────────────────────────────────
 // PayTR Callback Handler
@@ -11,40 +12,53 @@ import crypto from "crypto";
 // ─────────────────────────────────────────────────────────────
 
 /**
- * Siparişi "Ödendi" olarak güncelleyen fonksiyon.
- * Bu fonksiyonu kendi veritabanı/API mantığınıza göre uyarlayın.
+ * PayTR sonucunu siparişe işler.
+ * Sipariş satırları token alınırken "awaiting" olarak kaydedilir; burada
+ * tahsil edilen tutar sipariş toplamıyla karşılaştırılıp "paid" / "failed" yapılır.
+ * Veritabanı hatasında hata fırlatır — PayTR bildirimi tekrar gönderir.
  *
  * @param merchantOid - PayTR'den gelen sipariş numarası
- * @param totalAmount - Ödenen tutar (kuruş cinsinden, örn: 15000 = 150.00 TL)
+ * @param totalAmount - Tahsil edilen tutar (kuruş cinsinden, örn: 15000 = 150.00 TL)
  */
-async function markOrderAsPaid(
+async function applyPaymentResult(
   merchantOid: string,
+  success: boolean,
   totalAmount: string
 ): Promise<void> {
-  // ─── ÖRNEK: Prisma ORM ile güncelleme ───────────────────────
-  // import { prisma } from "@/lib/prisma";
-  // await prisma.order.update({
-  //   where: { merchantOid },
-  //   data: {
-  //     status: "paid",
-  //     paidAmount: parseInt(totalAmount) / 100, // kuruşu TL'ye çevir
-  //     paidAt: new Date(),
-  //   },
-  // });
+  const supabase = createServerSupabaseClient();
 
-  // ─── ÖRNEK: Harici bir API'ye istek ─────────────────────────
-  // await fetch(`${process.env.INTERNAL_API_URL}/orders/${merchantOid}/pay`, {
-  //   method: "PATCH",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify({ status: "paid", amount: totalAmount }),
-  // });
+  const { data: rows, error } = await supabase
+    .from("custom_orders")
+    .select("id, total_price, payment_status")
+    .eq("paytr_order_id", merchantOid);
 
-  // Şimdilik konsola yaz — kendi mantığınızla değiştirin
-  console.log(
-    `[PayTR] Sipariş güncellendi → OID: ${merchantOid} | Tutar: ${
-      parseInt(totalAmount) / 100
-    } TL`
-  );
+  if (error) throw error;
+  if (!rows || rows.length === 0) {
+    console.error(`[PayTR] Sipariş bulunamadı → OID: ${merchantOid}`);
+    return;
+  }
+
+  // Aynı bildirim tekrar gelirse tekrar işleme
+  if (rows.every((r) => r.payment_status === "paid")) return;
+
+  let newStatus: "paid" | "failed" = success ? "paid" : "failed";
+  if (success) {
+    const expectedKurus = rows.reduce((sum, r) => sum + r.total_price * 100, 0);
+    // Taksit farkı nedeniyle tahsil edilen tutar sipariş toplamından büyük olabilir, küçük olamaz
+    if (parseInt(totalAmount, 10) < expectedKurus) {
+      console.error(
+        `[PayTR] Tutar uyuşmazlığı → OID: ${merchantOid} | Beklenen: ${expectedKurus} | Tahsil: ${totalAmount}`
+      );
+      newStatus = "failed";
+    }
+  }
+
+  const { error: updateError } = await supabase
+    .from("custom_orders")
+    .update({ payment_status: newStatus })
+    .eq("paytr_order_id", merchantOid);
+
+  if (updateError) throw updateError;
 }
 
 /**
@@ -134,19 +148,17 @@ export async function POST(req: NextRequest) {
     }
 
     // ── 4. Ödeme durumuna göre işlem yap ───────────────────────
-    if (status === "success") {
-      console.log(
-        `[PayTR] Ödeme BAŞARILI → OID: ${merchantOid} | Tutar: ${
-          parseInt(totalAmount) / 100
-        } TL`
-      );
-      await markOrderAsPaid(merchantOid, totalAmount);
-    } else {
-      // "failed" durumu — siparişi iptal/başarısız olarak işaretleyebilirsiniz
-      console.log(
-        `[PayTR] Ödeme BAŞARISIZ → OID: ${merchantOid} | Durum: ${status}`
-      );
-      // İsteğe bağlı: markOrderAsFailed(merchantOid);
+    console.log(
+      `[PayTR] Ödeme ${status === "success" ? "BAŞARILI" : "BAŞARISIZ"} → OID: ${merchantOid} | Tutar: ${
+        parseInt(totalAmount) / 100
+      } TL`
+    );
+    try {
+      await applyPaymentResult(merchantOid, status === "success", totalAmount);
+    } catch (dbErr) {
+      // OK dönme — PayTR bildirimi tekrar gönderir, sipariş kaybolmaz
+      console.error(`[PayTR] Sipariş güncellenemedi → OID: ${merchantOid}`, dbErr);
+      return new NextResponse("DB_ERROR", { status: 500 });
     }
 
     // ── 5. PayTR'ye zorunlu "OK" yanıtı dön ────────────────────

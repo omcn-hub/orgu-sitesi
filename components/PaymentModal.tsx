@@ -3,27 +3,43 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingBag, Shield, Lock, CreditCard } from 'lucide-react';
+import type { CheckoutCustomer, CheckoutItem } from '@/lib/checkout';
 
 interface PaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
   productName: string;
-  price: string;
-  productId: string;
+  price: string;          // Yalnızca gösterim — tutarı sunucu hesaplar
+  items: CheckoutItem[];
 }
 
-type ModalState = 'loading' | 'ready' | 'error';
+type ModalState = 'form' | 'loading' | 'ready' | 'error';
+
+const EMPTY_CUSTOMER: CheckoutCustomer = { name: '', email: '', phone: '', address: '' };
+const CUSTOMER_STORAGE_KEY = 'checkout-customer';
+
+const inputClass =
+  'w-full px-4 py-3 rounded-xl border border-[var(--border-light)] bg-white text-[var(--text-primary)] text-sm focus:outline-none focus:border-[var(--accent-terracotta)] transition-colors';
 
 const PaymentModal = ({
   isOpen,
   onClose,
   productName,
   price,
-  productId,
+  items,
 }: PaymentModalProps) => {
-  const [state, setState] = useState<ModalState>('loading');
+  const [state, setState] = useState<ModalState>('form');
   const [iframeToken, setIframeToken] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
+  const [customer, setCustomer] = useState<CheckoutCustomer>(EMPTY_CUSTOMER);
+
+  // Önceki siparişte girilen bilgileri hatırla
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(CUSTOMER_STORAGE_KEY);
+      if (saved) setCustomer({ ...EMPTY_CUSTOMER, ...JSON.parse(saved) });
+    } catch {}
+  }, []);
 
   const fetchToken = useCallback(async () => {
     setState('loading');
@@ -31,10 +47,14 @@ const PaymentModal = ({
     setErrorMessage('');
 
     try {
+      localStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customer));
+    } catch {}
+
+    try {
       const res = await fetch('/api/paytr/token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productName, price, productId }),
+        body: JSON.stringify({ items, customer }),
       });
 
       const data = await res.json();
@@ -49,25 +69,25 @@ const PaymentModal = ({
       setErrorMessage(err.message || 'Bir hata oluştu.');
       setState('error');
     }
-  }, [productName, price, productId]);
+  }, [items, customer]);
 
   useEffect(() => {
     if (isOpen) {
-      fetchToken();
+      setState('form');
       // Modal açıkken scroll'u kilitle
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
       // Kapanınca state'i sıfırla
       setTimeout(() => {
-        setState('loading');
+        setState('form');
         setIframeToken(null);
       }, 400);
     }
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isOpen, fetchToken]);
+  }, [isOpen]);
 
   // ESC tuşu ile kapat
   useEffect(() => {
@@ -77,6 +97,15 @@ const PaymentModal = ({
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [onClose]);
+
+  const setField = (field: keyof CheckoutCustomer) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setCustomer((c) => ({ ...c, [field]: e.target.value }));
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    fetchToken();
+  };
 
   return (
     <AnimatePresence>
@@ -131,7 +160,66 @@ const PaymentModal = ({
             </div>
 
             {/* Content */}
-            <div className="flex-1 overflow-hidden">
+            <div className="flex-1 overflow-y-auto">
+              {/* Teslimat Bilgileri Formu */}
+              {state === 'form' && (
+                <form onSubmit={handleSubmit} className="px-6 py-5 space-y-3">
+                  <p className="text-sm font-semibold text-[var(--text-primary)]">Teslimat Bilgileri</p>
+                  <input
+                    className={inputClass}
+                    placeholder="Ad Soyad"
+                    autoComplete="name"
+                    required
+                    minLength={3}
+                    maxLength={100}
+                    value={customer.name}
+                    onChange={setField('name')}
+                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <input
+                      className={inputClass}
+                      type="email"
+                      placeholder="E-posta"
+                      autoComplete="email"
+                      required
+                      maxLength={150}
+                      value={customer.email}
+                      onChange={setField('email')}
+                    />
+                    <input
+                      className={inputClass}
+                      type="tel"
+                      placeholder="Telefon (05xx xxx xx xx)"
+                      autoComplete="tel"
+                      required
+                      pattern="[0-9\s()+\-]{10,20}"
+                      value={customer.phone}
+                      onChange={setField('phone')}
+                    />
+                  </div>
+                  <textarea
+                    className={`${inputClass} resize-none`}
+                    placeholder="Açık adres (mahalle, sokak, no, ilçe / il)"
+                    autoComplete="street-address"
+                    required
+                    minLength={10}
+                    maxLength={400}
+                    rows={3}
+                    value={customer.address}
+                    onChange={setField('address')}
+                  />
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit"
+                    className="w-full btn-primary py-3.5 text-base font-bold flex items-center justify-center gap-2"
+                  >
+                    <CreditCard className="w-5 h-5" />
+                    Ödemeye Geç
+                  </motion.button>
+                </form>
+              )}
+
               {/* Loading State */}
               {state === 'loading' && (
                 <div className="flex flex-col items-center justify-center py-20 px-6">
@@ -170,7 +258,7 @@ const PaymentModal = ({
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={fetchToken}
+                    onClick={() => setState('form')}
                     className="btn-primary px-8 py-3 text-sm"
                   >
                     Tekrar Dene

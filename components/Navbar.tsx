@@ -193,11 +193,11 @@ const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="absolute top-0 right-0 bottom-0 w-[85%] max-w-sm bg-[var(--bg-primary)] shadow-xl p-6"
+              className="absolute top-0 right-0 bottom-0 w-[90%] sm:w-[85%] max-w-sm bg-[var(--bg-primary)] shadow-xl p-5 sm:p-6"
             >
-              <div className="flex items-center justify-between mb-10 pt-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl overflow-hidden shadow-sm">
+              <div className="flex items-center justify-between mb-8 sm:mb-10 pt-2 sm:pt-4">
+                <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden shadow-sm flex-shrink-0">
                     <Image 
                       src="/images/logo.png" 
                       alt="ÖRGÜHOME" 
@@ -206,30 +206,30 @@ const Navbar = () => {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <span className="font-heading text-lg font-bold text-[var(--text-primary)]">
+                  <span className="font-heading text-base sm:text-lg font-bold text-[var(--text-primary)] truncate">
                     ÖRGÜHOME
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Link href="/favorites" onClick={() => setIsMobileMenuOpen(false)} className="relative p-2 hover:bg-[var(--bg-secondary)] rounded-xl transition-colors text-[var(--text-secondary)]">
+                <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+                  <Link href="/favorites" onClick={() => setIsMobileMenuOpen(false)} className="relative p-1.5 sm:p-2 hover:bg-[var(--bg-secondary)] rounded-xl transition-colors text-[var(--text-secondary)]">
                     <Heart className="w-5 h-5" />
                     {mounted && favoriteItems.length > 0 && (
-                      <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full">
+                      <span className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full">
                         {favoriteItems.length}
                       </span>
                     )}
                   </Link>
-                  <Link href="/cart" onClick={() => setIsMobileMenuOpen(false)} className="relative p-2 hover:bg-[var(--bg-secondary)] rounded-xl transition-colors text-[var(--text-secondary)]">
+                  <Link href="/cart" onClick={() => setIsMobileMenuOpen(false)} className="relative p-1.5 sm:p-2 hover:bg-[var(--bg-secondary)] rounded-xl transition-colors text-[var(--text-secondary)]">
                     <ShoppingBag className="w-5 h-5" />
                     {mounted && cartItems.length > 0 && (
-                      <span className="absolute top-1 right-1 w-4 h-4 bg-[var(--accent-terracotta)] text-white text-[10px] font-bold flex items-center justify-center rounded-full">
+                      <span className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 w-4 h-4 bg-[var(--accent-terracotta)] text-white text-[10px] font-bold flex items-center justify-center rounded-full">
                         {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
                       </span>
                     )}
                   </Link>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="p-2 hover:bg-[var(--bg-secondary)] rounded-xl transition-colors text-[var(--text-secondary)]"
+                    className="p-1.5 sm:p-2 hover:bg-[var(--bg-secondary)] rounded-xl transition-colors text-[var(--text-secondary)]"
                   >
                     <X className="w-5 h-5" />
                   </button>

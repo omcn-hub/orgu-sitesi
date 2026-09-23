@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ShoppingBag, Heart } from 'lucide-react';
-import PaymentModal from './PaymentModal';
 import { useCartStore } from '@/store/useCartStore';
 import { useFavoriteStore } from '@/store/useFavoriteStore';
 import { useRouter } from 'next/navigation';
@@ -19,7 +18,6 @@ interface ProductCardProps {
 
 const ProductCard = ({ name, price, image, hoverImage, productId }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   const router = useRouter();
@@ -35,6 +33,7 @@ const ProductCard = ({ name, price, image, hoverImage, productId }: ProductCardP
     const numericPrice = parseFloat(price.replace(/[^0-9,.-]+/g, '').replace(',', '.'));
     addToCart({
       id: productId,
+      productId,
       name,
       price: isNaN(numericPrice) ? 0 : numericPrice,
       image,
@@ -133,15 +132,6 @@ const ProductCard = ({ name, price, image, hoverImage, productId }: ProductCardP
           </div>
         </div>
       </motion.div>
-
-      {/* PayTR Ödeme Modalı */}
-      <PaymentModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        productName={name}
-        price={price}
-        productId={productId}
-      />
     </>
   );
 };

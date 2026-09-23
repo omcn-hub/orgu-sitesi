@@ -18,7 +18,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://orguhome.com'),
+  metadataBase: new URL('https://www.orguhome.com.tr'),
   title: "ÖRGÜHOME - El Yapımı Örgü Ürünleri",
   description: "Sevgiyle ve organik yünle el emeğiyle örülmüş örgüler. Kazak, hırka, bere ve atkı koleksiyonumuzu keşfedin.",
   keywords: ["el örgüsü", "organik yün", "handmade", "örgü kazak", "yün hırka", "el yapımı örgü", "sürdürülebilir moda", "örgü ürünleri"],
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "tr_TR",
-    url: "https://orguhome.com",
+    url: "https://www.orguhome.com.tr",
     siteName: "ÖRGÜHOME",
     title: "ÖRGÜHOME - El Yapımı Örgü Ürünleri",
     description: "Sevgiyle ve organik yünle el emeğiyle örülmüş örgüler. Kazak, hırka, bere ve atkı koleksiyonumuzu keşfedin.",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     images: ["/og-image.jpg"],
   },
   alternates: {
-    canonical: "https://orguhome.com",
+    canonical: "https://www.orguhome.com.tr",
   },
 };
 

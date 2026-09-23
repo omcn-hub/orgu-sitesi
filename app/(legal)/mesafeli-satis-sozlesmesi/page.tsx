@@ -30,7 +30,7 @@ const DistanceSalesAgreement = () => {
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4">2. KONU</h2>
         <p>
-          İşbu Sözleşme'nin konusu, ALICI'nın SATICI'ya ait www.orguhome.com internet sitesinden elektronik ortamda siparişini yaptığı aşağıda nitelikleri ve satış fiyatı belirtilen ürünün satışı ve teslimi ile ilgili olarak 6502 sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği hükümleri gereğince tarafların hak ve yükümlülüklerinin saptanmasıdır.
+          İşbu Sözleşme'nin konusu, ALICI'nın SATICI'ya ait www.orguhome.com.tr internet sitesinden elektronik ortamda siparişini yaptığı aşağıda nitelikleri ve satış fiyatı belirtilen ürünün satışı ve teslimi ile ilgili olarak 6502 sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği hükümleri gereğince tarafların hak ve yükümlülüklerinin saptanmasıdır.
         </p>
       </section>
 
