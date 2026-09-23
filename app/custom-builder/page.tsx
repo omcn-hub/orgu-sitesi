@@ -34,15 +34,15 @@ import { useCartStore } from '@/store/useCartStore';
 // Renk grubuna göre önizleme görseli eşleştirme
 const COLOR_TO_IMAGE: Record<string, string> = {
   krem:        '/images/beyaz-patik-1.jpg',
-  taba:        '/images/kahverengi-patik.png',
-  terracotta:  '/images/kırmızı-patik.png',
+  taba:        '/images/kahverengi-patik.webp',
+  terracotta:  '/images/kırmızı-patik.webp',
   adacayi:     '/images/gri-patik-1.jpg',
   'koyu-yesil':'/images/gri-patik-2.jpg',
-  mavi:        '/images/mavi-patik.png',
-  lacivert:    '/images/mavi-patik2.png',
+  mavi:        '/images/mavi-patik.webp',
+  lacivert:    '/images/mavi-patik2.webp',
   'gul-kurusu':'/images/pembe-patik.jpg',
-  bordo:       '/images/kırmızı-patik3.png',
-  antrasit:    '/images/siyah-terlik.png',
+  bordo:       '/images/kırmızı-patik3.webp',
+  antrasit:    '/images/siyah-terlik.webp',
 };
 const DEFAULT_IMAGE = '/images/beyaz-patik-3.jpg';
 
